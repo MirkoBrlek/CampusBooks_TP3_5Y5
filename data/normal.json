@@ -1,0 +1,77 @@
+{
+  "campus": [
+    {
+      "id": "edouard-montpetit",
+      "nom": "Cégep Édouard-Montpetit"
+    },
+    {
+      "id": "udes-longueuil",
+      "nom": "Université de Sherbrooke — Campus de Longueuil"
+    },
+    {
+      "id": "champlain-saint-lambert",
+      "nom": "Champlain College Saint-Lambert"
+    }
+  ],
+  "livres": [
+    {
+      "isbn": "9780000000019",
+      "titre": "Introduction à la programmation"
+    },
+    {
+      "isbn": "9780000000026",
+      "titre": "Calcul différentiel"
+    },
+    {
+      "isbn": "9780000000033",
+      "titre": "Principes de marketing"
+    },
+    {
+      "isbn": "9780000000040",
+      "titre": "Introduction à la psychologie"
+    }
+  ],
+  "annonces": [
+    {
+      "id": "annonce-001",
+      "isbn": "9780000000019",
+      "campusId": "edouard-montpetit",
+      "prixCentimes": 4500,
+      "etat": "Très bon état",
+      "estDisponible": true,
+      "photos": [
+        "images/annonces/programmation-couverture.jpg",
+        "images/annonces/programmation-dos.jpg"
+      ]
+    },
+    {
+      "id": "annonce-002",
+      "isbn": "9780000000026",
+      "campusId": "edouard-montpetit",
+      "prixCentimes": 3200,
+      "etat": "Bon état",
+      "estDisponible": true,
+      "photos": [
+        "images/annonces/calcul-couverture.jpg"
+      ]
+    },
+    {
+      "id": "annonce-003",
+      "isbn": "9780000000033",
+      "campusId": "udes-longueuil",
+      "prixCentimes": 3800,
+      "etat": "Très bon état",
+      "estDisponible": true,
+      "photos": []
+    },
+    {
+      "id": "annonce-004",
+      "isbn": "9780000000040",
+      "campusId": "champlain-saint-lambert",
+      "prixCentimes": 2800,
+      "etat": "Bon état",
+      "estDisponible": false,
+      "photos": []
+    }
+  ]
+}
