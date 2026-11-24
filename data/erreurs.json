@@ -1,0 +1,20 @@
+{
+  "campus": [],
+  "livres": [
+    {
+      "isbn": "123",
+      "titre": ""
+    }
+  ],
+  "annonces": [
+    {
+      "id": "annonce-err-01",
+      "isbn": "9999999999999",
+      "campusId": "campus-inexistant",
+      "prixCentimes": -500,
+      "etat": "État inconnu",
+      "estDisponible": true,
+      "photos": "ce-nest-pas-un-tableau-mais-une-chaine"
+    }
+  ]
+}
