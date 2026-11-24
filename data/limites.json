@@ -1,0 +1,36 @@
+{
+  "campus": [
+    {
+      "id": "edouard-montpetit",
+      "nom": "Cégep Édouard-Montpetit"
+    }
+  ],
+  "livres": [
+    {
+      "isbn": "9780000000099",
+      "titre": "A"
+    }
+  ],
+  "annonces": [
+    {
+      "id": "annonce-limite-01",
+      "isbn": "9780000000099",
+      "campusId": "edouard-montpetit",
+      "prixCentimes": 0,
+      "etat": "Acceptable",
+      "estDisponible": true,
+      "photos": []
+    },
+    {
+      "id": "annonce-limite-02",
+      "isbn": "9780000000019",
+      "campusId": "edouard-montpetit",
+      "prixCentimes": 99999,
+      "etat": "Neuf",
+      "estDisponible": true,
+      "photos": [
+        "images/annonces/trop-longue-image-nom-pour-tester-l-affichage-responsive-de-la-carte-produit-sur-mobile.jpg"
+      ]
+    }
+  ]
+}
