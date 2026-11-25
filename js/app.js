@@ -159,6 +159,25 @@ function initialiserControlesDemo() {
   });
 }
 
+const header = document.querySelector("header");
+let dernierScroll = window.scrollY;
+
+window.addEventListener(
+  "scroll",
+  () => {
+    const scrollActuel = window.scrollY;
+
+    if (scrollActuel > dernierScroll && scrollActuel > 80) {
+      header.classList.add("header-cache");
+    } else if (scrollActuel < dernierScroll) {
+      header.classList.remove("header-cache");
+    }
+
+    dernierScroll = Math.max(scrollActuel, 0);
+  },
+  { passive: true },
+);
+
 function demarrerApplication() {
   initialiserNavigation();
   initialiserControlesDemo();

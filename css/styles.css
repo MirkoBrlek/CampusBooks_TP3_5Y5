@@ -411,7 +411,8 @@ footer .marque-logo {
 /* Grille et cartes Liquid Glass */
 .grille-annonces {
   display: grid;
-  align-items: flex-start;
+  align-items: stretch;
+  grid-auto-rows: 1fr;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
   gap: 1.25rem;
 }
@@ -419,7 +420,7 @@ footer .marque-logo {
 .carte-annonce {
   display: flex;
   flex-direction: column;
-  align-self: flex-start;
+  height: 100%;
   overflow: hidden;
   border: 1px solid var(--bordure-verre);
   border-radius: 1.25rem;
@@ -531,8 +532,15 @@ footer .marque-logo {
 }
 
 .contenu-annonce {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.35rem;
   padding: 1rem 1.05rem 1.15rem;
-  overflow-wrap: anywhere;
+}
+
+.contenu-annonce > :has(+ .bouton-acheter-catalogue) {
+  margin-bottom: 0.75rem; /* ajuste selon l'espace voulu */
 }
 
 .prix-annonce {
@@ -552,15 +560,23 @@ footer .marque-logo {
   font-size: 1.02rem;
   font-weight: 750;
   line-height: 1.35;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .auteur-annonce,
 .campus-annonce,
 .etat-annonce,
 .remise-annonce {
-  margin: 0.35rem 0 0;
+  margin: 0;
   color: var(--texte-secondaire);
   font-size: 0.89rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* =========================================================
@@ -692,6 +708,48 @@ footer .marque-logo {
   background-repeat: no-repeat;
   background-position: right 1.1rem center;
   background-size: 1rem;
+}
+
+.champ-groupe input[type="file"] {
+  padding: 0.35rem 0.85rem 0.35rem 0.35rem;
+  color: var(--texte-secondaire);
+  cursor: pointer;
+}
+
+.champ-groupe input[type="file"]::file-selector-button {
+  margin-right: 0.75rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-4) 32%, transparent);
+  border-radius: 999px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.92),
+    color-mix(in srgb, var(--color-6) 16%, #ffffff)
+  );
+  color: var(--color-4);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow:
+    0 2px 8px color-mix(in srgb, var(--color-4) 10%, transparent),
+    inset 0 1px 0 #ffffff;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.champ-groupe input[type="file"]:hover::file-selector-button {
+  border-color: var(--color-4);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.92),
+    color-mix(in srgb, var(--color-6) 14%, #ffffff)
+  );
+  box-shadow: 0 0px 20px -7px
+    color-mix(in srgb, var(--color-4) 38%, transparent);
 }
 
 .aide-champ {
@@ -976,7 +1034,7 @@ footer .marque-logo {
 }
 
 .bouton-acheter-catalogue {
-  margin-top: 0.85rem;
+  margin-top: auto;
   width: 100%;
 }
 
@@ -1098,6 +1156,17 @@ footer .marque-logo {
    RESPONSIVE
    ========================================================= */
 @media (max-width: 700px) {
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: transform 0.3s ease;
+  }
+
+  header.header-cache {
+    transform: translateY(-100%);
+  }
+
   .entete-contenu {
     flex-direction: column;
     align-items: center;
