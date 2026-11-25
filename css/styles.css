@@ -111,6 +111,7 @@ body {
     font-size: 0.95rem;
     font-weight: 650;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .bouton-secondaire:hover {
@@ -283,6 +284,16 @@ body {
     color: #465d80;
 }
 
+.bandeau-vendeur {
+    margin: 0 0 1.25rem;
+    padding: 0.65rem 0.9rem;
+    border-radius: 0.55rem;
+    background: #eef4fd;
+    color: #12346b;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
 .formulaire-cb {
     display: grid;
     gap: 1.1rem;
@@ -295,6 +306,11 @@ body {
 
 .champ-groupe[hidden] {
     display: none;
+}
+
+.champ-ligne {
+    display: flex;
+    gap: 0.6rem;
 }
 
 .champ-groupe label {
@@ -328,12 +344,41 @@ body {
     font-size: 0.82rem;
 }
 
+.compteur-depasse {
+    color: #b42318;
+    font-weight: 700;
+}
+
 .message-erreur-champ {
     margin: 0;
     min-height: 1.1em;
     color: #b42318;
     font-size: 0.85rem;
     font-weight: 600;
+}
+
+.apercu-photo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.35rem;
+    padding: 0.5rem;
+    border: 1px solid #d6e2f2;
+    border-radius: 0.55rem;
+    background: #f8fbff;
+    font-size: 0.85rem;
+    color: #2b4266;
+}
+
+.apercu-photo[hidden] {
+    display: none;
+}
+
+.apercu-photo img {
+    width: 56px;
+    height: 56px;
+    border-radius: 0.35rem;
+    object-fit: cover;
 }
 
 .bouton-primaire {
@@ -354,11 +399,15 @@ body {
 }
 
 .alerte {
-    margin-top: 1.25rem;
-    padding: 1rem 1.15rem;
+    margin-top: 0.25rem;
+    padding: 0.95rem 1.1rem;
     border-radius: 0.65rem;
-    font-size: 0.95rem;
+    font-size: 0.93rem;
     line-height: 1.45;
+}
+
+.alerte[hidden] {
+    display: none;
 }
 
 .alerte p {
@@ -375,4 +424,16 @@ body {
     border: 1px solid #f5a39c;
     background: #fef3f2;
     color: #912018;
+}
+
+.alerte-info {
+    border: 1px solid #9bb1cf;
+    background: #eef4fd;
+    color: #12346b;
+}
+
+.alerte-avertissement {
+    border: 1px solid #f5c26b;
+    background: #fffbeb;
+    color: #7c4a03;
 }

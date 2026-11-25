@@ -172,10 +172,123 @@
             <div class="barre-catalogue">
                 <h1>Vendre un livre</h1>
             </div>
-            <div id="conteneur-publier" class="panneau-module">
-                <p class="note-module">
-                    Module prêt pour l'US #167 (<code>js/annonces.js</code>).
-                </p>
+
+            <div class="panneau-module panneau-formulaire">
+                <p id="bandeau-vendeur-annonce" class="bandeau-vendeur"></p>
+
+                <form id="form-annonce" class="formulaire-cb" novalidate>
+                    <div class="champ-groupe">
+                        <label for="annonce-isbn">Code ISBN (10 ou 13 chiffres) *</label>
+                        <div class="champ-ligne">
+                            <input
+                                type="text"
+                                id="annonce-isbn"
+                                name="isbn"
+                                inputmode="numeric"
+                                placeholder="Ex. 9782761398459 ou 2765054126"
+                                required
+                            >
+                            <button type="button" id="btn-rechercher-isbn" class="bouton-secondaire">
+                                Rechercher ISBN
+                            </button>
+                        </div>
+                        <p class="aide-champ">
+                            Interroge le catalogue Google Books (simulé) pour pré-remplir le titre et l'auteur.
+                        </p>
+                        <p id="erreur-annonce-isbn" class="message-erreur-champ" aria-live="polite"></p>
+                    </div>
+
+                    <div id="statut-isbn" class="alerte" role="status" aria-live="polite" hidden></div>
+
+                    <div class="champ-groupe">
+                        <label for="annonce-titre">Titre du manuel *</label>
+                        <input
+                            type="text"
+                            id="annonce-titre"
+                            name="titre"
+                            placeholder="Pré-rempli par ISBN ou saisi manuellement"
+                            required
+                        >
+                        <p id="erreur-annonce-titre" class="message-erreur-champ" aria-live="polite"></p>
+                    </div>
+
+                    <div class="champ-groupe">
+                        <label for="annonce-auteur">Auteur(s) *</label>
+                        <input
+                            type="text"
+                            id="annonce-auteur"
+                            name="auteur"
+                            placeholder="Ex. Marc-André Pelletier"
+                            required
+                        >
+                        <p id="erreur-annonce-auteur" class="message-erreur-champ" aria-live="polite"></p>
+                    </div>
+
+                    <div class="champ-groupe">
+                        <label for="annonce-prix">Prix demandé ($ CAD) *</label>
+                        <input
+                            type="number"
+                            id="annonce-prix"
+                            name="prix"
+                            step="0.01"
+                            min="0.01"
+                            max="500"
+                            placeholder="Entre 0,01 $ et 500,00 $"
+                            required
+                        >
+                        <p id="erreur-annonce-prix" class="message-erreur-champ" aria-live="polite"></p>
+                    </div>
+
+                    <div class="champ-groupe">
+                        <label for="annonce-etat">État physique du livre *</label>
+                        <select id="annonce-etat" name="etat" required>
+                            <option value="NEUF">Neuf</option>
+                            <option value="TRES_BON" selected>Très bon état</option>
+                            <option value="BON">Bon état</option>
+                            <option value="ACCEPTABLE">État acceptable</option>
+                        </select>
+                        <p id="erreur-annonce-etat" class="message-erreur-champ" aria-live="polite"></p>
+                    </div>
+
+                    <div class="champ-groupe">
+                        <label for="annonce-description">Description (300 caractères maximum)</label>
+                        <textarea
+                            id="annonce-description"
+                            name="description"
+                            rows="3"
+                            placeholder="Précisez l'état des pages, les annotations éventuelles ou le cours associé…"
+                        ></textarea>
+                        <p id="compteur-description" class="aide-champ">0 / 300 caractères</p>
+                        <p id="erreur-annonce-description" class="message-erreur-champ" aria-live="polite"></p>
+                    </div>
+
+                    <div class="champ-groupe">
+                        <label for="annonce-remise">Point de remise suggéré sur le campus</label>
+                        <input
+                            type="text"
+                            id="annonce-remise"
+                            name="pointRemise"
+                            placeholder="Ex. Cafétéria principale — Bloc A"
+                        >
+                    </div>
+
+                    <div class="champ-groupe">
+                        <label for="annonce-photo">Photo du manuel (.jpg ou .png, max 5 Mo) *</label>
+                        <input
+                            type="file"
+                            id="annonce-photo"
+                            name="photo"
+                            accept=".jpg,.jpeg,.png"
+                            required
+                        >
+                        <p id="erreur-annonce-photo" class="message-erreur-champ" aria-live="polite"></p>
+                        <div id="apercu-photo-annonce" class="apercu-photo" hidden></div>
+                    </div>
+
+                    <button type="submit" class="bouton-primaire">Publier l'annonce</button>
+                </form>
+
+                <div id="resultat-annonce" class="alerte" role="status" aria-live="polite" hidden></div>
             </div>
         </section>
 
