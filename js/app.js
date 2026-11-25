@@ -1,8 +1,9 @@
 import { initialiserCatalogue, mettreAJourCatalogue } from "./catalogue.js";
+import { initialiserInscription } from "./inscription.js";
 
 /**
  * État partagé en mémoire pour les 4 User Stories.
- * Les futurs modules (inscription.js, annonces.js, paiement.js) peuvent importer etatApp
+ * Les futurs modules (annonces.js, paiement.js) peuvent importer etatApp
  * et appeler notifierChangementEtat() après toute modification.
  */
 export const etatApp = {
@@ -133,6 +134,7 @@ function demarrerApplication() {
     initialiserNavigation();
     initialiserControlesDemo();
     initialiserCatalogue();
+    initialiserInscription();
     chargerJeuDonnees("normal.json");
 }
 

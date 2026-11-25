@@ -54,7 +54,7 @@
     </section>
 
     <main class="conteneur principal">
-        <!-- US #158 — Filtrage des annonces par campus -->
+        <!-- US #158 — Filtrage des annonces par campus (Mirko) -->
         <section id="vue-catalogue" class="vue-section">
             <div class="barre-catalogue">
                 <h1>Livres usagés</h1>
@@ -71,15 +71,99 @@
             <div id="annonces" class="grille-annonces" aria-label="Annonces"></div>
         </section>
 
-        <!-- US #164 — Inscription (Becy) -->
+        <!-- US #164 — Inscription utilisateur (Becy) -->
         <section id="vue-inscription" class="vue-section" hidden>
             <div class="barre-catalogue">
-                <h1>Inscription</h1>
+                <h1>Créer un compte</h1>
             </div>
-            <div id="conteneur-inscription" class="panneau-module">
-                <p class="note-module">
-                    Module prêt pour l'US #164 (<code>js/inscription.js</code>).
-                </p>
+
+            <div class="panneau-module panneau-formulaire">
+                <form id="form-inscription" class="formulaire-cb" novalidate>
+                    <div class="champ-groupe">
+                        <label for="inscription-nom">Nom complet *</label>
+                        <input
+                            type="text"
+                            id="inscription-nom"
+                            name="nom"
+                            placeholder="Ex. Marie-Pier Côté"
+                            required
+                        >
+                        <p id="erreur-inscription-nom" class="message-erreur-champ" aria-live="polite"></p>
+                    </div>
+
+                    <div class="champ-groupe">
+                        <label for="inscription-courriel">Courriel académique *</label>
+                        <input
+                            type="email"
+                            id="inscription-courriel"
+                            name="courriel"
+                            placeholder="Ex. prenom.nom@etu.cegepmontpetit.ca"
+                            required
+                        >
+                        <p class="aide-champ">
+                            Doit provenir d'un domaine académique reconnu (ex. @etu.cegepmontpetit.ca, @uqam.ca, @usherbrooke.ca).
+                        </p>
+                        <p id="erreur-inscription-courriel" class="message-erreur-champ" aria-live="polite"></p>
+                    </div>
+
+                    <div class="champ-groupe">
+                        <label for="inscription-mdp">Mot de passe *</label>
+                        <input
+                            type="password"
+                            id="inscription-mdp"
+                            name="motDePasse"
+                            placeholder="Minimum 8 caractères"
+                            required
+                        >
+                        <p class="aide-champ">
+                            Exigences : au moins 8 caractères, 1 majuscule, 1 chiffre et 1 caractère spécial.
+                        </p>
+                        <p id="erreur-inscription-mdp" class="message-erreur-champ" aria-live="polite"></p>
+                    </div>
+
+                    <div class="champ-groupe">
+                        <label for="inscription-role">Statut académique (Rôle) *</label>
+                        <select id="inscription-role" name="role">
+                            <option value="Student">Étudiant (Student)</option>
+                            <option value="Professor">Professeur (Professor)</option>
+                        </select>
+                    </div>
+
+                    <div id="groupe-numero-etudiant" class="champ-groupe">
+                        <label for="inscription-numero-etudiant">Numéro d'étudiant *</label>
+                        <input
+                            type="text"
+                            id="inscription-numero-etudiant"
+                            name="numeroEtudiant"
+                            inputmode="numeric"
+                            placeholder="Ex. 20241005"
+                        >
+                        <p id="erreur-inscription-numero-etudiant" class="message-erreur-champ" aria-live="polite"></p>
+                    </div>
+
+                    <div id="groupe-departement" class="champ-groupe" hidden>
+                        <label for="inscription-departement">Département *</label>
+                        <input
+                            type="text"
+                            id="inscription-departement"
+                            name="departement"
+                            placeholder="Ex. Informatique"
+                        >
+                        <p id="erreur-inscription-departement" class="message-erreur-champ" aria-live="polite"></p>
+                    </div>
+
+                    <div class="champ-groupe">
+                        <label for="inscription-campus">Établissement (Zone pilote de Longueuil) *</label>
+                        <select id="inscription-campus" name="campusId" required>
+                            <option value="">Sélectionner votre établissement à Longueuil</option>
+                        </select>
+                        <p id="erreur-inscription-campus" class="message-erreur-champ" aria-live="polite"></p>
+                    </div>
+
+                    <button type="submit" class="bouton-primaire">Créer mon compte</button>
+                </form>
+
+                <div id="resultat-inscription" class="alerte" role="status" aria-live="polite" hidden></div>
             </div>
         </section>
 

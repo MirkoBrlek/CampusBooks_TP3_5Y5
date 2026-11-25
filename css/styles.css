@@ -265,7 +265,7 @@ body {
     font-size: 0.9rem;
 }
 
-/* Panneaux réservés aux autres US */
+/* Panneaux et formulaires (US #164, #167, #160) */
 .panneau-module {
     margin-top: 1.5rem;
     padding: 1.5rem;
@@ -274,7 +274,105 @@ body {
     background: #fff;
 }
 
+.panneau-formulaire {
+    max-width: 620px;
+}
+
 .note-module {
     margin: 0;
     color: #465d80;
+}
+
+.formulaire-cb {
+    display: grid;
+    gap: 1.1rem;
+}
+
+.champ-groupe {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.champ-groupe[hidden] {
+    display: none;
+}
+
+.champ-groupe label {
+    font-size: 0.92rem;
+    font-weight: 650;
+}
+
+.champ-groupe input,
+.champ-groupe select,
+.champ-groupe textarea {
+    width: 100%;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid #9bb1cf;
+    border-radius: 0.55rem;
+    background: #fff;
+    color: inherit;
+    font: inherit;
+    font-size: 0.95rem;
+}
+
+.champ-groupe input[aria-invalid="true"],
+.champ-groupe select[aria-invalid="true"],
+.champ-groupe textarea[aria-invalid="true"] {
+    border-color: #b42318;
+    background: #fff8f7;
+}
+
+.aide-champ {
+    margin: 0;
+    color: #465d80;
+    font-size: 0.82rem;
+}
+
+.message-erreur-champ {
+    margin: 0;
+    min-height: 1.1em;
+    color: #b42318;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.bouton-primaire {
+    justify-self: start;
+    padding: 0.7rem 1.25rem;
+    border: 0;
+    border-radius: 0.55rem;
+    background: #12346b;
+    color: #fff;
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.bouton-primaire:hover {
+    background: #1a4994;
+}
+
+.alerte {
+    margin-top: 1.25rem;
+    padding: 1rem 1.15rem;
+    border-radius: 0.65rem;
+    font-size: 0.95rem;
+    line-height: 1.45;
+}
+
+.alerte p {
+    margin: 0.45rem 0 0.85rem;
+}
+
+.alerte-succes {
+    border: 1px solid #84ca9c;
+    background: #edfcf2;
+    color: #0f5132;
+}
+
+.alerte-erreur {
+    border: 1px solid #f5a39c;
+    background: #fef3f2;
+    color: #912018;
 }
