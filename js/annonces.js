@@ -103,6 +103,16 @@ function estIsbnValide(isbnNormalise) {
   return /^(\d{10}|\d{13})$/.test(isbnNormalise);
 }
 
+function lireFichierEnDataUrl(fichier) {
+  return new Promise((resolve, reject) => {
+    const lecteur = new FileReader();
+    lecteur.onload = () => resolve(lecteur.result);
+    lecteur.onerror = () =>
+      reject(new Error("Impossible de lire le fichier image."));
+    lecteur.readAsDataURL(fichier);
+  });
+}
+
 function actualiserContexteVendeur() {
   const bandeau = document.querySelector("#bandeau-vendeur-annonce");
   if (!bandeau) {
@@ -175,7 +185,7 @@ function executerRechercheIsbn(afficherErreurSiInvalide) {
   }
 }
 
-function previsualiserPhoto() {
+async function previsualiserPhoto() {
   const champPhoto = document.querySelector("#annonce-photo");
   const apercuConteneur = document.querySelector("#apercu-photo-annonce");
   const fichier = champPhoto.files?.[0];
@@ -194,8 +204,10 @@ function previsualiserPhoto() {
     return;
   }
 
+  const dataUrl = await lireFichierEnDataUrl(fichier);
+
   const image = document.createElement("img");
-  image.src = URL.createObjectURL(fichier);
+  image.src = dataUrl;
   image.alt = `Aperçu de ${fichier.name}`;
 
   const legende = document.createElement("span");
@@ -252,7 +264,7 @@ function reinitialiserErreurs() {
   }
 }
 
-function traiterPublicationAnnonce(evenement) {
+async function traiterPublicationAnnonce(evenement) {
   evenement.preventDefault();
   reinitialiserErreurs();
 
@@ -283,7 +295,6 @@ function traiterPublicationAnnonce(evenement) {
 
   let formulaireValide = true;
 
-  // 1. Validation ISBN (10 ou 13 chiffres)
   if (!estIsbnValide(isbnNormalise)) {
     afficherErreurChamp(
       "isbn",
@@ -292,7 +303,6 @@ function traiterPublicationAnnonce(evenement) {
     formulaireValide = false;
   }
 
-  // 2. Validation titre et auteur (pré-remplis ou saisis manuellement)
   if (titre.length < 2) {
     afficherErreurChamp(
       "titre",
@@ -309,7 +319,6 @@ function traiterPublicationAnnonce(evenement) {
     formulaireValide = false;
   }
 
-  // 3. Validation du prix (strictement supérieur à 0 $ et max 500 $)
   const prixNumerique = Number.parseFloat(prixBrut);
   if (prixBrut === "" || Number.isNaN(prixNumerique)) {
     afficherErreurChamp(
@@ -325,7 +334,6 @@ function traiterPublicationAnnonce(evenement) {
     formulaireValide = false;
   }
 
-  // 4. Validation de l'état physique
   const etatsValides = ["NEUF", "TRES_BON", "BON", "ACCEPTABLE"];
   if (!etatsValides.includes(etat)) {
     afficherErreurChamp(
@@ -335,7 +343,6 @@ function traiterPublicationAnnonce(evenement) {
     formulaireValide = false;
   }
 
-  // 5. Validation de la description (max 300 caractères)
   if (description.length > LONGUEUR_MAX_DESCRIPTION) {
     afficherErreurChamp(
       "description",
@@ -344,7 +351,6 @@ function traiterPublicationAnnonce(evenement) {
     formulaireValide = false;
   }
 
-  // 6. Validation de la photo (.jpg ou .png, max 5 Mo)
   const erreurPhoto = validerFichierPhoto(fichierPhoto);
   if (erreurPhoto) {
     afficherErreurChamp("photo", erreurPhoto);
@@ -359,8 +365,7 @@ function traiterPublicationAnnonce(evenement) {
     return;
   }
 
-  // Création de l'annonce et ajout dans le catalogue en mémoire
-  const urlApercu = URL.createObjectURL(fichierPhoto);
+  const dataUrlPhoto = await lireFichierEnDataUrl(fichierPhoto);
   const prixArrondi = Math.round(prixNumerique * 100) / 100;
 
   const nouvelleAnnonce = {
@@ -375,14 +380,13 @@ function traiterPublicationAnnonce(evenement) {
     description,
     pointRemise: pointRemise || "À convenir sur le campus",
     photoNom: fichierPhoto.name,
-    photos: [urlApercu],
+    photos: [dataUrlPhoto],
     estDisponible: true,
   };
 
   etatApp.annonces.unshift(nouvelleAnnonce);
   notifierChangementEtat();
 
-  // Réinitialisation du formulaire et confirmation visuelle
   document.querySelector("#form-annonce").reset();
   document.querySelector("#statut-isbn").hidden = true;
   const apercu = document.querySelector("#apercu-photo-annonce");
