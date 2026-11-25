@@ -5,6 +5,10 @@
       "nom": "Cégep Édouard-Montpetit"
     },
     {
+      "id": "uqam-longueuil",
+      "nom": "UQAM — Campus de Longueuil"
+    },
+    {
       "id": "udes-longueuil",
       "nom": "Université de Sherbrooke — Campus de Longueuil"
     },
@@ -13,65 +17,123 @@
       "nom": "Champlain College Saint-Lambert"
     }
   ],
+  "utilisateurs": [
+    {
+      "id": "user-001",
+      "nom": "Camille Tremblay",
+      "courriel": "camille.tremblay@etu.cegepmontpetit.ca",
+      "role": "Student",
+      "campusId": "edouard-montpetit",
+      "numeroEtudiant": "20241001"
+    },
+    {
+      "id": "user-002",
+      "nom": "Lucas Gagnon",
+      "courriel": "lucas.gagnon@etu.cegepmontpetit.ca",
+      "role": "Student",
+      "campusId": "edouard-montpetit",
+      "numeroEtudiant": "20241002"
+    },
+    {
+      "id": "user-003",
+      "nom": "Sophie Roy",
+      "courriel": "sophie.roy@usherbrooke.ca",
+      "role": "Professor",
+      "campusId": "udes-longueuil",
+      "departement": "Informatique"
+    }
+  ],
   "livres": [
     {
-      "isbn": "9780000000019",
-      "titre": "Introduction à la programmation"
+      "isbn": "9782761398459",
+      "titre": "Introduction à la programmation",
+      "auteur": "Marc-André Pelletier",
+      "edition": "3e édition",
+      "couverture": "images/annonces/programmation-couverture.jpg"
     },
     {
-      "isbn": "9780000000026",
-      "titre": "Calcul différentiel"
+      "isbn": "9782765054122",
+      "titre": "Calcul différentiel",
+      "auteur": "Gilles Charron, Pierre Parent",
+      "edition": "9e édition",
+      "couverture": "images/annonces/calcul-couverture.jpg"
     },
     {
-      "isbn": "9780000000033",
-      "titre": "Principes de marketing"
+      "isbn": "9782894618721",
+      "titre": "Principes de marketing",
+      "auteur": "Philip Kotler, Gary Armstrong",
+      "edition": "14e édition",
+      "couverture": "images/annonces/marketing-couverture.jpg"
     },
     {
-      "isbn": "9780000000040",
-      "titre": "Introduction à la psychologie"
+      "isbn": "9782765078913",
+      "titre": "Introduction à la psychologie",
+      "auteur": "Carole Wade, Carol Tavris",
+      "edition": "5e édition",
+      "couverture": "images/annonces/psychologie-couverture.jpg"
     }
   ],
   "annonces": [
     {
       "id": "annonce-001",
-      "isbn": "9780000000019",
+      "isbn": "9782761398459",
+      "titre": "Introduction à la programmation",
+      "auteur": "Marc-André Pelletier",
+      "vendeurId": "user-002",
       "campusId": "edouard-montpetit",
-      "prixCentimes": 4500,
-      "etat": "Très bon état",
-      "estDisponible": true,
-      "photos": [
-        "images/annonces/programmation-couverture.jpg",
-        "images/annonces/programmation-dos.jpg"
-      ]
+      "prix": 45.00,
+      "etat": "TRES_BON",
+      "description": "Manuel utilisé une seule session en Techniques de l'informatique. Aucune page annotée.",
+      "pointRemise": "Cafétéria principale — Bloc A",
+      "photoNom": "programmation-couverture.jpg",
+      "estDisponible": true
     },
     {
       "id": "annonce-002",
-      "isbn": "9780000000026",
+      "isbn": "9782765054122",
+      "titre": "Calcul différentiel",
+      "auteur": "Gilles Charron, Pierre Parent",
+      "vendeurId": "user-002",
       "campusId": "edouard-montpetit",
-      "prixCentimes": 3200,
-      "etat": "Bon état",
-      "estDisponible": true,
-      "photos": [
-        "images/annonces/calcul-couverture.jpg"
-      ]
+      "prix": 32.50,
+      "etat": "BON",
+      "description": "Quelques exercices résolus au crayon à mine dans les premiers chapitres, très propre.",
+      "pointRemise": "Bibliothèque — Entrée du 2e étage",
+      "photoNom": "calcul-couverture.jpg",
+      "estDisponible": true
     },
     {
       "id": "annonce-003",
-      "isbn": "9780000000033",
+      "isbn": "9782894618721",
+      "titre": "Principes de marketing",
+      "auteur": "Philip Kotler, Gary Armstrong",
+      "vendeurId": "user-003",
       "campusId": "udes-longueuil",
-      "prixCentimes": 3800,
-      "etat": "Très bon état",
-      "estDisponible": true,
-      "photos": []
+      "prix": 38.00,
+      "etat": "TRES_BON",
+      "description": "Édition récente exigée pour le cours de gestion, remise en main propre à la station Longueuil.",
+      "pointRemise": "Atrium — Campus de Longueuil",
+      "photoNom": "marketing-couverture.jpg",
+      "estDisponible": true
     },
     {
       "id": "annonce-004",
-      "isbn": "9780000000040",
+      "isbn": "9782765078913",
+      "titre": "Introduction à la psychologie",
+      "auteur": "Carole Wade, Carol Tavris",
+      "vendeurId": "user-001",
       "campusId": "champlain-saint-lambert",
-      "prixCentimes": 2800,
-      "etat": "Bon état",
-      "estDisponible": false,
-      "photos": []
+      "prix": 28.00,
+      "etat": "ACCEPTABLE",
+      "description": "Couverture légèrement usée sur les coins mais toutes les pages sont intactes.",
+      "pointRemise": "Student Lounge — Rez-de-chaussée",
+      "photoNom": "psychologie-couverture.jpg",
+      "estDisponible": false
     }
-  ]
+  ],
+  "transactions": [],
+  "simulationPaiement": {
+    "cartesRefusees": [],
+    "simulerPanneStripe": false
+  }
 }

@@ -3,73 +3,132 @@ const formatPrix = new Intl.NumberFormat("fr-CA", {
     currency: "CAD"
 });
 
-export function initialiserCatalogue({ campus, livres, annonces }) {
+const libellesEtat = {
+    NEUF: "Neuf",
+    TRES_BON: "Très bon état",
+    BON: "Bon état",
+    ACCEPTABLE: "État acceptable"
+};
+
+let etatCourant = { campus: [], livres: [], annonces: [] };
+let initialise = false;
+
+export function initialiserCatalogue() {
+    if (initialise) {
+        return;
+    }
+
     const selecteur = document.querySelector("#campus");
-    const grille = document.querySelector("#annonces");
-    const message = document.querySelector("#message-catalogue");
+    selecteur.addEventListener("change", afficherAnnonces);
+    initialise = true;
+}
 
-    const campusParId = new Map(
-        campus.map(etablissement => [etablissement.id, etablissement])
-    );
+export function mettreAJourCatalogue({ campus, livres, annonces }) {
+    etatCourant = { campus, livres, annonces };
 
-    const livresParIsbn = new Map(
-        livres.map(livre => [livre.isbn, livre])
-    );
+    const selecteur = document.querySelector("#campus");
+    const selectionPrecedente = selecteur.value;
+
+    selecteur.replaceChildren(new Option("Tous les campus", ""));
 
     for (const etablissement of campus) {
         selecteur.add(new Option(etablissement.nom, etablissement.id));
     }
 
-    function afficherAnnonces() {
-        const campusChoisi = selecteur.value;
-        const annoncesVisibles = annonces.filter(annonce =>
-            annonce.estDisponible === true &&
-            campusParId.has(annonce.campusId) &&
-            (campusChoisi === "" || annonce.campusId === campusChoisi)
-        );
+    const campusExiste = campus.some(c => c.id === selectionPrecedente);
+    selecteur.value = campusExiste ? selectionPrecedente : "";
+    selecteur.disabled = false;
 
-        grille.replaceChildren();
+    afficherAnnonces();
+}
 
-        if (annoncesVisibles.length === 0) {
-            message.textContent = campusChoisi
-                ? "Aucune offre n’est disponible pour ce campus."
-                : "Aucune annonce n’est disponible pour le moment.";
-            return;
-        }
+function afficherAnnonces() {
+    const selecteur = document.querySelector("#campus");
+    const grille = document.querySelector("#annonces");
+    const message = document.querySelector("#message-catalogue");
 
-        message.textContent = annoncesVisibles.length === 1
-            ? "1 annonce disponible"
-            : `${annoncesVisibles.length} annonces disponibles`;
+    const campusParId = new Map(
+        etatCourant.campus.map(etablissement => [etablissement.id, etablissement])
+    );
 
-        for (const annonce of annoncesVisibles) {
-            const livre = livresParIsbn.get(annonce.isbn);
-            const etablissement = campusParId.get(annonce.campusId);
+    const livresParIsbn = new Map(
+        etatCourant.livres.map(livre => [livre.isbn, livre])
+    );
 
-            grille.append(creerCarteAnnonce(annonce, livre, etablissement.nom));
-        }
+    const campusChoisi = selecteur.value;
+    const annoncesVisibles = etatCourant.annonces.filter(annonce =>
+        annonce.estDisponible === true &&
+        campusParId.has(annonce.campusId) &&
+        (campusChoisi === "" || annonce.campusId === campusChoisi)
+    );
+
+    grille.replaceChildren();
+
+    if (annoncesVisibles.length === 0) {
+        message.textContent = campusChoisi
+            ? "Aucune offre n’est disponible pour ce campus."
+            : "Aucune annonce n’est disponible pour le moment.";
+        return;
     }
 
-    selecteur.value = "";
-    selecteur.addEventListener("change", afficherAnnonces);
-    afficherAnnonces();
-    selecteur.disabled = false;
+    message.textContent = annoncesVisibles.length === 1
+        ? "1 annonce disponible"
+        : `${annoncesVisibles.length} annonces disponibles`;
+
+    for (const annonce of annoncesVisibles) {
+        const livre = livresParIsbn.get(annonce.isbn);
+        const etablissement = campusParId.get(annonce.campusId);
+
+        grille.append(creerCarteAnnonce(annonce, livre, etablissement.nom));
+    }
+}
+
+function obtenirMontant(annonce) {
+    if (typeof annonce.prix === "number") {
+        return annonce.prix;
+    }
+    return (annonce.prixCentimes ?? 0) / 100;
+}
+
+function obtenirPhotos(annonce, livre) {
+    if (Array.isArray(annonce.photos) && annonce.photos.length > 0) {
+        return annonce.photos;
+    }
+    if (annonce.photoNom) {
+        return [`./images/annonces/${annonce.photoNom}`];
+    }
+    if (livre?.couverture) {
+        return [`./${livre.couverture}`];
+    }
+    return [];
 }
 
 function creerCarteAnnonce(annonce, livre, nomCampus) {
-    const titreLivre = livre?.titre ?? "Livre sans titre";
+    const titreLivre = annonce.titre ?? livre?.titre ?? "Livre sans titre";
+    const auteurLivre = annonce.auteur ?? livre?.auteur ?? "";
 
     const carte = document.createElement("article");
     carte.className = "carte-annonce";
+    carte.dataset.annonceId = annonce.id;
 
     const contenu = document.createElement("div");
     contenu.className = "contenu-annonce";
 
     const prix = document.createElement("p");
     prix.className = "prix-annonce";
-    prix.textContent = formatPrix.format(annonce.prixCentimes / 100);
+    prix.textContent = formatPrix.format(obtenirMontant(annonce));
 
     const titre = document.createElement("h2");
     titre.textContent = titreLivre;
+
+    contenu.append(prix, titre);
+
+    if (auteurLivre) {
+        const auteur = document.createElement("p");
+        auteur.className = "auteur-annonce";
+        auteur.textContent = auteurLivre;
+        contenu.append(auteur);
+    }
 
     const campus = document.createElement("p");
     campus.className = "campus-annonce";
@@ -77,11 +136,18 @@ function creerCarteAnnonce(annonce, livre, nomCampus) {
 
     const etat = document.createElement("p");
     etat.className = "etat-annonce";
-    etat.textContent = annonce.etat;
+    etat.textContent = libellesEtat[annonce.etat] ?? annonce.etat;
 
-    contenu.append(prix, titre, campus, etat);
-    carte.append(creerGalerieAnnonce(annonce.photos ?? [], titreLivre), contenu);
+    contenu.append(campus, etat);
 
+    if (annonce.pointRemise) {
+        const remise = document.createElement("p");
+        remise.className = "remise-annonce";
+        remise.textContent = `Remise : ${annonce.pointRemise}`;
+        contenu.append(remise);
+    }
+
+    carte.append(creerGalerieAnnonce(obtenirPhotos(annonce, livre), titreLivre), contenu);
     return carte;
 }
 

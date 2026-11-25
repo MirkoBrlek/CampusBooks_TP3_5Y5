@@ -3,34 +3,95 @@
     {
       "id": "edouard-montpetit",
       "nom": "Cégep Édouard-Montpetit"
+    },
+    {
+      "id": "uqam-longueuil",
+      "nom": "UQAM — Campus de Longueuil"
+    },
+    {
+      "id": "udes-longueuil",
+      "nom": "Université de Sherbrooke — Campus de Longueuil"
+    },
+    {
+      "id": "champlain-saint-lambert",
+      "nom": "Champlain College Saint-Lambert"
+    }
+  ],
+  "utilisateurs": [
+    {
+      "id": "user-lim-01",
+      "nom": "Alexia Bélanger",
+      "courriel": "alexia.belanger@uqam.ca",
+      "role": "Student",
+      "campusId": "uqam-longueuil",
+      "numeroEtudiant": "20249001"
+    },
+    {
+      "id": "user-lim-02",
+      "nom": "Malik Ouellet",
+      "courriel": "malik.ouellet@champlaincollege.qc.ca",
+      "role": "Student",
+      "campusId": "champlain-saint-lambert",
+      "numeroEtudiant": "20249002"
+    },
+    {
+      "id": "user-lim-03",
+      "nom": "Émile Côté",
+      "courriel": "emile.cote@etu.cegepmontpetit.ca",
+      "role": "Student",
+      "campusId": "edouard-montpetit",
+      "numeroEtudiant": "20249003"
     }
   ],
   "livres": [
     {
-      "isbn": "9780000000099",
-      "titre": "A"
+      "isbn": "2765054126",
+      "titre": "Calcul différentiel (Format ISBN-10)",
+      "auteur": "Gilles Charron, Pierre Parent",
+      "edition": "9e édition",
+      "couverture": "images/annonces/calcul-couverture.jpg"
+    },
+    {
+      "isbn": "9780134685991",
+      "titre": "Effective Java",
+      "auteur": "Joshua Bloch",
+      "edition": "3e édition",
+      "couverture": "images/annonces/java-couverture.jpg"
     }
   ],
   "annonces": [
     {
-      "id": "annonce-limite-01",
-      "isbn": "9780000000099",
+      "id": "annonce-lim-01",
+      "isbn": "2765054126",
+      "titre": "Calcul différentiel (Format ISBN-10)",
+      "auteur": "Gilles Charron, Pierre Parent",
+      "vendeurId": "user-lim-03",
       "campusId": "edouard-montpetit",
-      "prixCentimes": 0,
-      "etat": "Acceptable",
-      "estDisponible": true,
-      "photos": []
+      "prix": 0.01,
+      "etat": "ACCEPTABLE",
+      "description": "Manuel scolaire en excellent etat general pour le cours de calcul differentiel au cegep. Aucune page dechiree ni annotation au stylo, quelques passages surlignes proprement au crayon jaune dans les deux premiers chapitres seulement. Comprend le code web non utilise dans sa pochette neuf d'origine !!",
+      "pointRemise": "Accueil — Porte principale",
+      "photoNom": "calcul-limite.png",
+      "estDisponible": true
     },
     {
-      "id": "annonce-limite-02",
-      "isbn": "9780000000019",
-      "campusId": "edouard-montpetit",
-      "prixCentimes": 99999,
-      "etat": "Neuf",
-      "estDisponible": true,
-      "photos": [
-        "images/annonces/trop-longue-image-nom-pour-tester-l-affichage-responsive-de-la-carte-produit-sur-mobile.jpg"
-      ]
+      "id": "annonce-lim-02",
+      "isbn": "9780134685991",
+      "titre": "Effective Java",
+      "auteur": "Joshua Bloch",
+      "vendeurId": "user-lim-02",
+      "campusId": "champlain-saint-lambert",
+      "prix": 500.00,
+      "etat": "NEUF",
+      "description": "Exemplaire neuf encore sous plastique d'origine, prix maximal autorise sur la plateforme.",
+      "pointRemise": "Bibliothèque Champlain",
+      "photoNom": "java-neuf.jpg",
+      "estDisponible": true
     }
-  ]
+  ],
+  "transactions": [],
+  "simulationPaiement": {
+    "cartesRefusees": [],
+    "simulerPanneStripe": false
+  }
 }

@@ -9,25 +9,103 @@
 </head>
 <body>
     <header class="entete">
-        <div class="conteneur">
+        <div class="conteneur entete-contenu">
             <a class="marque" href="./index.html">CampusBooks</a>
+
+            <nav class="navigation" aria-label="Fonctionnalités">
+                <button type="button" class="onglet actif" data-vue="catalogue" aria-pressed="true">
+                    Catalogue
+                </button>
+                <button type="button" class="onglet" data-vue="inscription" aria-pressed="false">
+                    Inscription
+                </button>
+                <button type="button" class="onglet" data-vue="publier" aria-pressed="false">
+                    Vendre un livre
+                </button>
+                <button type="button" class="onglet" data-vue="paiement" aria-pressed="false">
+                    Paiement
+                </button>
+            </nav>
         </div>
     </header>
 
-    <main class="conteneur catalogue">
-        <div class="barre-catalogue">
-            <h1>Livres usagés</h1>
-
-            <div class="filtre-campus">
-                <label for="campus">Filtrer par campus</label>
-                <select id="campus" disabled>
-                    <option value="">Tous les campus</option>
+    <section class="barre-demo" aria-label="Contrôles de démonstration et tests">
+        <div class="conteneur barre-demo-contenu">
+            <div class="controle-demo">
+                <label for="select-donnees">Jeu de données</label>
+                <select id="select-donnees">
+                    <option value="normal.json">normal.json (Nominal)</option>
+                    <option value="limites.json">limites.json (Bornes)</option>
+                    <option value="erreurs.json">erreurs.json (Erreurs)</option>
                 </select>
             </div>
-        </div>
 
-        <p id="message-catalogue" role="status">Chargement des annonces…</p>
-        <section id="annonces" class="grille-annonces" aria-label="Annonces"></section>
+            <div class="controle-demo">
+                <label for="select-profil">Profil actif</label>
+                <select id="select-profil" disabled>
+                    <option value="">Chargement…</option>
+                </select>
+            </div>
+
+            <button type="button" id="btn-reinitialiser" class="bouton-secondaire">
+                Réinitialiser
+            </button>
+        </div>
+    </section>
+
+    <main class="conteneur principal">
+        <!-- US #158 — Filtrage des annonces par campus -->
+        <section id="vue-catalogue" class="vue-section">
+            <div class="barre-catalogue">
+                <h1>Livres usagés</h1>
+
+                <div class="filtre-campus">
+                    <label for="campus">Filtrer par campus</label>
+                    <select id="campus" disabled>
+                        <option value="">Tous les campus</option>
+                    </select>
+                </div>
+            </div>
+
+            <p id="message-catalogue" role="status">Chargement des annonces…</p>
+            <div id="annonces" class="grille-annonces" aria-label="Annonces"></div>
+        </section>
+
+        <!-- US #164 — Inscription (Becy) -->
+        <section id="vue-inscription" class="vue-section" hidden>
+            <div class="barre-catalogue">
+                <h1>Inscription</h1>
+            </div>
+            <div id="conteneur-inscription" class="panneau-module">
+                <p class="note-module">
+                    Module prêt pour l'US #164 (<code>js/inscription.js</code>).
+                </p>
+            </div>
+        </section>
+
+        <!-- US #167 — Publication d'une annonce avec ISBN (Radmehr) -->
+        <section id="vue-publier" class="vue-section" hidden>
+            <div class="barre-catalogue">
+                <h1>Vendre un livre</h1>
+            </div>
+            <div id="conteneur-publier" class="panneau-module">
+                <p class="note-module">
+                    Module prêt pour l'US #167 (<code>js/annonces.js</code>).
+                </p>
+            </div>
+        </section>
+
+        <!-- US #160 — Paiement simulé et séquestre (Zhannette) -->
+        <section id="vue-paiement" class="vue-section" hidden>
+            <div class="barre-catalogue">
+                <h1>Paiement sécurisé</h1>
+            </div>
+            <div id="conteneur-paiement" class="panneau-module">
+                <p class="note-module">
+                    Module prêt pour l'US #160 (<code>js/paiement.js</code>).
+                </p>
+            </div>
+        </section>
     </main>
 </body>
 </html>

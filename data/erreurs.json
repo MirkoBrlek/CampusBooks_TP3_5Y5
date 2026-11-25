@@ -1,20 +1,108 @@
 {
-  "campus": [],
+  "campus": [
+    {
+      "id": "edouard-montpetit",
+      "nom": "Cégep Édouard-Montpetit"
+    },
+    {
+      "id": "uqam-longueuil",
+      "nom": "UQAM — Campus de Longueuil"
+    },
+    {
+      "id": "udes-longueuil",
+      "nom": "Université de Sherbrooke — Campus de Longueuil"
+    },
+    {
+      "id": "champlain-saint-lambert",
+      "nom": "Champlain College Saint-Lambert"
+    }
+  ],
+  "utilisateurs": [
+    {
+      "id": "user-err-01",
+      "nom": "Nadia Benali",
+      "courriel": "nadia.benali@etu.cegepmontpetit.ca",
+      "role": "Student",
+      "campusId": "edouard-montpetit",
+      "numeroEtudiant": "20248001"
+    },
+    {
+      "id": "user-err-02",
+      "nom": "Thomas Lavoie",
+      "courriel": "thomas.lavoie@usherbrooke.ca",
+      "role": "Student",
+      "campusId": "udes-longueuil",
+      "numeroEtudiant": "20248002"
+    }
+  ],
   "livres": [
     {
-      "isbn": "123",
-      "titre": ""
+      "isbn": "9782765054122",
+      "titre": "Calcul différentiel",
+      "auteur": "Gilles Charron, Pierre Parent",
+      "edition": "9e édition",
+      "couverture": "images/annonces/calcul-couverture.jpg"
     }
   ],
   "annonces": [
     {
       "id": "annonce-err-01",
-      "isbn": "9999999999999",
-      "campusId": "campus-inexistant",
-      "prixCentimes": -500,
-      "etat": "État inconnu",
-      "estDisponible": true,
-      "photos": "ce-nest-pas-un-tableau-mais-une-chaine"
+      "isbn": "9782765054122",
+      "titre": "Calcul différentiel",
+      "auteur": "Gilles Charron, Pierre Parent",
+      "vendeurId": "user-err-01",
+      "campusId": "edouard-montpetit",
+      "prix": 30.00,
+      "etat": "BON",
+      "description": "Annonce déjà vendue permettant de vérifier le blocage d'un second achat.",
+      "pointRemise": "Cafétéria — Bloc A",
+      "photoNom": "calcul-couverture.jpg",
+      "estDisponible": false
+    },
+    {
+      "id": "annonce-err-02",
+      "isbn": "9782765054122",
+      "titre": "Calcul différentiel (Exemplaire test paiement refusé)",
+      "auteur": "Gilles Charron, Pierre Parent",
+      "vendeurId": "user-err-01",
+      "campusId": "edouard-montpetit",
+      "prix": 40.00,
+      "etat": "TRES_BON",
+      "description": "Annonce active destinée aux tests de rejet de carte bancaire par la passerelle Stripe.",
+      "pointRemise": "Entrée principale — Métro Longueuil",
+      "photoNom": "calcul-couverture.jpg",
+      "estDisponible": true
+    },
+    {
+      "id": "annonce-err-03",
+      "isbn": "9782765054122",
+      "titre": "Calcul différentiel (Autre campus)",
+      "auteur": "Gilles Charron, Pierre Parent",
+      "vendeurId": "user-err-02",
+      "campusId": "udes-longueuil",
+      "prix": 35.00,
+      "etat": "BON",
+      "description": "Annonce située à l'Université de Sherbrooke, invisible pour un étudiant d'Édouard-Montpetit.",
+      "pointRemise": "Atrium UdeS",
+      "photoNom": "calcul-couverture.jpg",
+      "estDisponible": true
     }
-  ]
+  ],
+  "transactions": [
+    {
+      "id": "tx-err-01",
+      "annonceId": "annonce-err-01",
+      "acheteurId": "user-err-02",
+      "vendeurId": "user-err-01",
+      "campusId": "edouard-montpetit",
+      "montant": 30.00,
+      "statut": "Payée (Fonds en séquestre)"
+    }
+  ],
+  "simulationPaiement": {
+    "cartesRefusees": [
+      "4000000000000002"
+    ],
+    "simulerPanneStripe": false
+  }
 }

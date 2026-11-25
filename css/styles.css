@@ -14,9 +14,18 @@ body {
     margin-inline: auto;
 }
 
+/* En-tête et navigation */
 .entete {
     padding-block: 1rem;
     background: #12346b;
+}
+
+.entete-contenu {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
 .marque {
@@ -26,7 +35,90 @@ body {
     text-decoration: none;
 }
 
-.catalogue {
+.navigation {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.onglet {
+    padding: 0.5rem 0.9rem;
+    border: 1px solid #ffffff40;
+    border-radius: 0.55rem;
+    background: transparent;
+    color: #e6f0ff;
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.onglet:hover {
+    background: #ffffff1a;
+}
+
+.onglet.actif {
+    border-color: #fff;
+    background: #fff;
+    color: #12346b;
+}
+
+/* Barre de démonstration (JSON + Profil) */
+.barre-demo {
+    padding-block: 0.85rem;
+    border-bottom: 1px solid #cbdaf0;
+    background: #e4eefb;
+}
+
+.barre-demo-contenu {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 1rem;
+}
+
+.controle-demo {
+    display: grid;
+    gap: 0.25rem;
+    min-width: 220px;
+}
+
+.controle-demo label {
+    color: #2b4266;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.controle-demo select,
+.filtre-campus select {
+    width: 100%;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid #9bb1cf;
+    border-radius: 0.55rem;
+    background: #fff;
+    color: inherit;
+    font: inherit;
+    font-size: 0.95rem;
+}
+
+.bouton-secondaire {
+    padding: 0.58rem 1rem;
+    border: 1px solid #12346b;
+    border-radius: 0.55rem;
+    background: #fff;
+    color: #12346b;
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 650;
+    cursor: pointer;
+}
+
+.bouton-secondaire:hover {
+    background: #dceaff;
+}
+
+/* Contenu principal */
+.principal {
     padding-block: 2rem 3rem;
 }
 
@@ -42,7 +134,7 @@ body {
 
 .barre-catalogue h1 {
     margin: 0;
-    font-size: clamp(1.85rem, 5vw, 2.8rem);
+    font-size: clamp(1.85rem, 5vw, 2.6rem);
     letter-spacing: -0.035em;
 }
 
@@ -57,16 +149,6 @@ body {
     font-weight: 650;
 }
 
-.filtre-campus select {
-    width: 100%;
-    padding: 0.65rem 0.75rem;
-    border: 1px solid #9bb1cf;
-    border-radius: 0.55rem;
-    background: #fff;
-    color: inherit;
-    font: inherit;
-}
-
 :focus-visible {
     outline: 3px solid #2974dd;
     outline-offset: 3px;
@@ -77,13 +159,16 @@ body {
     color: #465d80;
 }
 
+/* Grille et cartes d'annonces */
 .grille-annonces {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
     gap: 1rem;
 }
 
 .carte-annonce {
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
     border: 1px solid #d6e2f2;
     border-radius: 0.85rem;
@@ -171,9 +256,25 @@ body {
     line-height: 1.35;
 }
 
+.auteur-annonce,
 .campus-annonce,
-.etat-annonce {
+.etat-annonce,
+.remise-annonce {
     margin: 0.35rem 0 0;
     color: #465d80;
     font-size: 0.9rem;
+}
+
+/* Panneaux réservés aux autres US */
+.panneau-module {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    border: 1px solid #d6e2f2;
+    border-radius: 0.85rem;
+    background: #fff;
+}
+
+.note-module {
+    margin: 0;
+    color: #465d80;
 }
