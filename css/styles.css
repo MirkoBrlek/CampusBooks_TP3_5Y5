@@ -1,441 +1,1129 @@
-* {
-    box-sizing: border-box;
+:root {
+  color-scheme: light;
+
+  /* Palette complète du logo */
+  --color-1: #d7e5fb;
+  --color-2: #0a2e64;
+  --color-3: #0067ff;
+  --color-4: #402696;
+  --color-5: #07357e;
+  --color-6: #5a77e4;
+  --color-7: #77b9f5;
+  --color-8: #68a1fb;
+  --color-9: #28227a;
+  --color-10: #b6d1fa;
+  --color-11: #84dcfe;
+
+  /* Surfaces Light Mode & Liquid Glass */
+  --surface-page: #f5f8ff;
+  --verre-clair: rgba(255, 255, 255, 0.72);
+  --verre-fort: rgba(255, 255, 255, 0.86);
+  --verre-teinte: color-mix(
+    in srgb,
+    var(--color-1) 42%,
+    rgba(255, 255, 255, 0.78)
+  );
+  --verre-champ: rgba(255, 255, 255, 0.88);
+  --flou-verre: blur(18px) saturate(180%);
+
+  /* Bordures spéculaires et reflets */
+  --bordure-verre: rgba(255, 255, 255, 0.85);
+  --bordure-douce: color-mix(
+    in srgb,
+    var(--color-6) 22%,
+    rgba(255, 255, 255, 0.85)
+  );
+  --bordure-active: var(--color-3);
+  --reflet-interne: inset 0 1px 1px rgba(255, 255, 255, 0.95);
+
+  /* Typographie haute lisibilité (contraste AAA/AA sur clair) */
+  --texte-principal: var(--color-2);
+  --texte-secondaire: color-mix(in srgb, var(--color-9) 68%, #475569);
+  --texte-attenué: color-mix(in srgb, var(--color-5) 50%, #64748b);
+
+  /* Ombres atmosphériques colorées */
+  --ombre-verre:
+    0 12px 32px -8px color-mix(in srgb, var(--color-9) 14%, transparent),
+    0 2px 6px color-mix(in srgb, var(--color-6) 10%, transparent),
+    var(--reflet-interne);
+  --ombre-verre-survol:
+    0 20px 40px -10px color-mix(in srgb, var(--color-4) 22%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--color-8) 45%, transparent),
+    var(--reflet-interne);
+  --halo-accent: 0 8px 24px -4px
+    color-mix(in srgb, var(--color-3) 38%, transparent);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    background: #f0f5fc;
-    color: #152641;
-    font-family: system-ui, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* Fond clair futuriste avec aurores multi-teintes du logo */
+  background:
+    radial-gradient(
+      circle at 8% 10%,
+      color-mix(in srgb, var(--color-4) 14%, transparent),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 92% 14%,
+      color-mix(in srgb, var(--color-11) 28%, transparent),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 78% 68%,
+      color-mix(in srgb, var(--color-6) 16%, transparent),
+      transparent 44%
+    ),
+    radial-gradient(
+      circle at 18% 82%,
+      color-mix(in srgb, var(--color-8) 18%, transparent),
+      transparent 42%
+    ),
+    linear-gradient(
+      180deg,
+      #f8fbff 0%,
+      color-mix(in srgb, var(--color-1) 35%, #ffffff) 52%,
+      #f4f5ff 100%
+    );
+  background-attachment: fixed;
+  color: var(--texte-principal);
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
 .conteneur {
-    width: min(1200px, calc(100% - 2rem));
-    margin-inline: auto;
+  width: min(1200px, calc(100% - 2rem));
+  margin-inline: auto;
 }
 
-/* En-tête et navigation */
+/* =========================================================
+   1. EN-TÊTE — Verre sombre futuriste (contraste fort)
+   ========================================================= */
 .entete {
-    padding-block: 1rem;
-    background: #12346b;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding-block: 0.95rem;
+  background: linear-gradient(
+    115deg,
+    color-mix(in srgb, var(--color-2) 92%, transparent) 0%,
+    color-mix(in srgb, var(--color-9) 90%, transparent) 52%,
+    color-mix(in srgb, var(--color-4) 88%, transparent) 100%
+  );
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  box-shadow:
+    0 10px 30px -8px color-mix(in srgb, var(--color-9) 35%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+/* Liseré prismatique multi-couleurs en bas du header */
+.entete::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--color-4) 0%,
+    var(--color-6) 28%,
+    var(--color-3) 56%,
+    var(--color-11) 82%,
+    var(--color-7) 100%
+  );
 }
 
 .entete-contenu {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 .marque {
-    color: #fff;
-    font-size: 1.35rem;
-    font-weight: 800;
-    text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  color: #ffffff;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-decoration: none;
+  filter: drop-shadow(0 0px 7px rgba(64, 224, 208, 0.7));
+}
+
+.marque-logo {
+  display: block;
+  width: 52px;
+  height: 52px;
+}
+
+footer .marque-logo {
+  display: block;
+  width: 84px;
+  height: 84px;
 }
 
 .navigation {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  padding: 0.3rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
 }
 
 .onglet {
-    padding: 0.5rem 0.9rem;
-    border: 1px solid #ffffff40;
-    border-radius: 0.55rem;
-    background: transparent;
-    color: #e6f0ff;
-    font: inherit;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
+  padding: 0.5rem 0.95rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-1);
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
 }
 
 .onglet:hover {
-    background: #ffffff1a;
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
 }
 
 .onglet.actif {
-    border-color: #fff;
-    background: #fff;
-    color: #12346b;
+  border-color: rgba(255, 255, 255, 0.7);
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    var(--color-1) 55%,
+    var(--color-11) 100%
+  );
+  color: var(--color-9);
+  box-shadow:
+    0 4px 16px color-mix(in srgb, var(--color-11) 40%, transparent),
+    inset 0 1px 0 #ffffff;
 }
 
-/* Barre de démonstration (JSON + Profil) */
+/* =========================================================
+   2. BARRE DE DÉMO — Bandeau verre lavande-glacier distinct
+   ========================================================= */
 .barre-demo {
-    padding-block: 0.85rem;
-    border-bottom: 1px solid #cbdaf0;
-    background: #e4eefb;
+  padding-block: 0.9rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-6) 24%, transparent);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-4) 10%, rgba(255, 255, 255, 0.72)) 0%,
+    color-mix(in srgb, var(--color-1) 55%, rgba(255, 255, 255, 0.76)) 50%,
+    color-mix(in srgb, var(--color-11) 18%, rgba(255, 255, 255, 0.72)) 100%
+  );
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
 }
 
 .barre-demo-contenu {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: end;
-    gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 1rem;
 }
 
 .controle-demo {
-    display: grid;
-    gap: 0.25rem;
-    min-width: 220px;
+  display: grid;
+  gap: 0.25rem;
+  min-width: 220px;
 }
 
 .controle-demo label {
-    color: #2b4266;
-    font-size: 0.82rem;
-    font-weight: 700;
+  color: var(--color-4);
+  font-size: 0.8rem;
+  font-weight: 750;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
 .controle-demo select,
 .filtre-campus select {
-    width: 100%;
-    padding: 0.55rem 0.75rem;
-    border: 1px solid #9bb1cf;
-    border-radius: 0.55rem;
-    background: #fff;
-    color: inherit;
-    font: inherit;
-    font-size: 0.95rem;
+  width: 100%;
+  padding: 0.58rem 0.8rem;
+  border: 1px solid
+    color-mix(in srgb, var(--color-6) 35%, rgba(255, 255, 255, 0.9));
+  border-radius: 999px;
+  background: var(--verre-champ);
+  color: var(--texte-principal);
+  font: inherit;
+  font-size: 0.93rem;
+  font-weight: 500;
+  box-shadow:
+    0 2px 8px color-mix(in srgb, var(--color-9) 6%, transparent),
+    inset 0 1px 0 #ffffff;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.controle-demo select:hover,
+.filtre-campus select:hover {
+  border-color: var(--color-6);
+  background: #ffffff;
+}
+
+.controle-demo select,
+.controle-demo select:hover,
+.filtre-campus select,
+.filtre-campus select:hover {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1.1rem center;
+  background-size: 1.15rem;
 }
 
 .bouton-secondaire {
-    padding: 0.58rem 1rem;
-    border: 1px solid #12346b;
-    border-radius: 0.55rem;
-    background: #fff;
-    color: #12346b;
-    font: inherit;
-    font-size: 0.95rem;
-    font-weight: 650;
-    cursor: pointer;
-    white-space: nowrap;
+  padding: 0.6rem 1.05rem;
+  border: 1px solid color-mix(in srgb, var(--color-4) 32%, transparent);
+  border-radius: 999px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.92),
+    color-mix(in srgb, var(--color-6) 14%, #ffffff)
+  );
+  color: var(--color-4);
+  font: inherit;
+  font-size: 0.93rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow:
+    0 4px 12px color-mix(in srgb, var(--color-4) 10%, transparent),
+    inset 0 1px 0 #ffffff;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .bouton-secondaire:hover {
-    background: #dceaff;
+  border-color: var(--color-4);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.92),
+    color-mix(in srgb, var(--color-6) 14%, #ffffff)
+  );
+  box-shadow: 0 8px 20px -4px
+    color-mix(in srgb, var(--color-4) 38%, transparent);
 }
 
-/* Contenu principal */
+/* =========================================================
+   3. CONTENU PRINCIPAL — Espace clair, aéré & Liquid Glass
+   ========================================================= */
 .principal {
-    padding-block: 2rem 3rem;
+  flex: 1;
+  padding-block: 2.25rem 3.75rem;
 }
 
 .barre-catalogue {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: end;
-    justify-content: space-between;
-    gap: 1rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #cbdaf0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--bordure-verre);
+  border-radius: 1.25rem;
+  background: var(--verre-clair);
+  backdrop-filter: var(--flou-verre);
+  -webkit-backdrop-filter: var(--flou-verre);
+  box-shadow: var(--ombre-verre);
 }
 
 .barre-catalogue h1 {
-    margin: 0;
-    font-size: clamp(1.85rem, 5vw, 2.6rem);
-    letter-spacing: -0.035em;
+  margin: 0;
+  font-size: clamp(1.85rem, 4.5vw, 2.55rem);
+  font-weight: 850;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+  background: linear-gradient(
+    95deg,
+    var(--color-9) 0%,
+    var(--color-4) 38%,
+    var(--color-3) 76%,
+    var(--color-6) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .filtre-campus {
-    display: grid;
-    gap: 0.35rem;
-    width: min(100%, 350px);
+  display: grid;
+  gap: 0.35rem;
+  width: min(100%, 350px);
 }
 
 .filtre-campus label {
-    font-size: 0.9rem;
-    font-weight: 650;
+  color: var(--color-5);
+  font-size: 0.85rem;
+  font-weight: 700;
 }
 
 :focus-visible {
-    outline: 3px solid #2974dd;
-    outline-offset: 3px;
+  outline: 3px solid var(--color-3);
+  outline-offset: 3px;
 }
 
 #message-catalogue {
-    margin-block: 1rem 0.75rem;
-    color: #465d80;
+  margin-block: 1.15rem 0.9rem;
+  color: var(--texte-secondaire);
+  font-weight: 500;
 }
 
-/* Grille et cartes d'annonces */
+/* Grille et cartes Liquid Glass */
 .grille-annonces {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
-    gap: 1rem;
+  display: grid;
+  align-items: flex-start;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: 1.25rem;
 }
 
 .carte-annonce {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    border: 1px solid #d6e2f2;
-    border-radius: 0.85rem;
-    background: #fff;
-    box-shadow: 0 3px 10px #12346b0c;
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  overflow: hidden;
+  border: 1px solid var(--bordure-verre);
+  border-radius: 1.25rem;
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.86) 0%,
+    color-mix(in srgb, var(--color-1) 30%, rgba(255, 255, 255, 0.68)) 100%
+  );
+  backdrop-filter: var(--flou-verre);
+  -webkit-backdrop-filter: var(--flou-verre);
+  box-shadow: var(--ombre-verre);
+  transition:
+    transform 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.24s ease,
+    box-shadow 0.24s ease;
+}
+
+.carte-annonce:hover {
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--color-11) 70%, #ffffff);
+  box-shadow: var(--ombre-verre-survol);
 }
 
 .galerie-annonce {
-    position: relative;
-    aspect-ratio: 2 / 2.5;
-    background: #e0ebfb;
-    overflow: hidden;
+  position: relative;
+  aspect-ratio: 2 / 2.5;
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--color-1) 75%, #ffffff),
+    color-mix(in srgb, var(--color-6) 24%, var(--color-10))
+  );
+  overflow: hidden;
 }
 
 .galerie-annonce img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.carte-annonce:hover .galerie-annonce img {
+  transform: scale(1.04);
 }
 
 .photo-indisponible {
-    position: absolute;
-    inset: 0;
-    align-content: center;
-    margin: 0;
-    padding: 0.75rem;
-    color: #465d80;
-    text-align: center;
+  position: absolute;
+  inset: 0;
+  align-content: center;
+  margin: 0;
+  padding: 0.75rem;
+  color: var(--color-5);
+  font-weight: 600;
+  text-align: center;
 }
 
 .galerie-annonce button {
-    position: absolute;
-    top: 50%;
-    display: grid;
-    width: 2.75rem;
-    height: 2.75rem;
-    place-items: center;
-    transform: translateY(-50%);
-    border: 0;
-    border-radius: 50%;
-    background: #fff;
-    color: #12346b;
-    font: 1.65rem/1 system-ui, sans-serif;
-    box-shadow: 0 2px 8px #122d5440;
-    cursor: pointer;
+  position: absolute;
+  top: 50%;
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  transform: translateY(-50%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  color: var(--color-2);
+  font:
+    1.5rem/1 system-ui,
+    sans-serif;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-9) 22%, transparent);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
 }
 
 .galerie-annonce button:hover {
-    background: #dceaff;
+  background: linear-gradient(135deg, var(--color-4), var(--color-3));
+  border-color: var(--color-11);
+  color: #ffffff;
 }
 
 .photo-precedente {
-    left: 0.5rem;
+  left: 0.55rem;
 }
 
 .photo-suivante {
-    right: 0.5rem;
+  right: 0.55rem;
 }
 
 .compteur-photos {
-    position: absolute;
-    right: 0.65rem;
-    bottom: 0.65rem;
-    padding: 0.25rem 0.55rem;
-    border-radius: 1rem;
-    background: #12346b;
-    color: #fff;
-    font-size: 0.8rem;
+  position: absolute;
+  right: 0.65rem;
+  bottom: 0.65rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-9) 76%, transparent);
+  backdrop-filter: blur(10px);
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 700;
 }
 
 .contenu-annonce {
-    padding: 0.85rem 0.95rem 1rem;
-    overflow-wrap: anywhere;
+  padding: 1rem 1.05rem 1.15rem;
+  overflow-wrap: anywhere;
 }
 
 .prix-annonce {
-    margin: 0 0 0.2rem;
-    color: #104ea5;
-    font-size: 1.35rem;
-    font-weight: 800;
+  margin: 0 0 0.25rem;
+  font-size: 1.4rem;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+  background: linear-gradient(90deg, var(--color-4) 0%, var(--color-3) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .carte-annonce h2 {
-    margin: 0;
-    font-size: 1rem;
-    line-height: 1.35;
+  margin: 0;
+  color: var(--color-2);
+  font-size: 1.02rem;
+  font-weight: 750;
+  line-height: 1.35;
 }
 
 .auteur-annonce,
 .campus-annonce,
 .etat-annonce,
 .remise-annonce {
-    margin: 0.35rem 0 0;
-    color: #465d80;
-    font-size: 0.9rem;
+  margin: 0.35rem 0 0;
+  color: var(--texte-secondaire);
+  font-size: 0.89rem;
 }
 
-/* Panneaux et formulaires (US #164, #167, #160) */
+/* =========================================================
+   4. PANNEAUX & FORMULAIRES — Verre dépoli lumineux
+   ========================================================= */
 .panneau-module {
-    margin-top: 1.5rem;
-    padding: 1.5rem;
-    border: 1px solid #d6e2f2;
-    border-radius: 0.85rem;
-    background: #fff;
+  margin-top: 1.5rem;
+  padding: 1.75rem;
+  border: 1px solid var(--bordure-verre);
+  border-radius: 1.35rem;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.86) 0%,
+    color-mix(in srgb, var(--color-1) 28%, rgba(255, 255, 255, 0.72)) 100%
+  );
+  backdrop-filter: var(--flou-verre);
+  -webkit-backdrop-filter: var(--flou-verre);
+  box-shadow: var(--ombre-verre);
 }
 
 .panneau-formulaire {
-    max-width: 620px;
+  max-width: 640px;
 }
 
 .note-module {
-    margin: 0;
-    color: #465d80;
+  margin: 0;
+  color: var(--texte-secondaire);
 }
 
 .bandeau-vendeur {
-    margin: 0 0 1.25rem;
-    padding: 0.65rem 0.9rem;
-    border-radius: 0.55rem;
-    background: #eef4fd;
-    color: #12346b;
-    font-size: 0.9rem;
-    font-weight: 600;
+  margin: 0 0 1.25rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-6) 32%, transparent);
+  border-left: 4px solid var(--color-4);
+  border-radius: 0.8rem;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-4) 10%, rgba(255, 255, 255, 0.88)),
+    color-mix(in srgb, var(--color-11) 18%, rgba(255, 255, 255, 0.88))
+  );
+  color: var(--color-9);
+  font-size: 0.92rem;
+  font-weight: 650;
 }
 
 .formulaire-cb {
-    display: grid;
-    gap: 1.1rem;
+  display: grid;
+  gap: 1.15rem;
 }
 
 .champ-groupe {
-    display: grid;
-    gap: 0.35rem;
+  display: grid;
+  gap: 0.38rem;
 }
 
 .champ-groupe[hidden] {
-    display: none;
+  display: none;
 }
 
 .champ-ligne {
-    display: flex;
-    gap: 0.6rem;
+  display: flex;
+  gap: 0.65rem;
 }
 
 .champ-groupe label {
-    font-size: 0.92rem;
-    font-weight: 650;
+  color: var(--color-2);
+  font-size: 0.92rem;
+  font-weight: 700;
 }
 
 .champ-groupe input,
 .champ-groupe select,
 .champ-groupe textarea {
-    width: 100%;
-    padding: 0.65rem 0.75rem;
-    border: 1px solid #9bb1cf;
-    border-radius: 0.55rem;
-    background: #fff;
-    color: inherit;
-    font: inherit;
-    font-size: 0.95rem;
+  width: 100%;
+  padding: 0.68rem 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--color-6) 32%, #cbd5e1);
+  border-radius: 999px;
+  background-color: var(--verre-champ);
+  color: var(--texte-principal);
+  font: inherit;
+  font-size: 0.95rem;
+  box-shadow: inset 0 1px 2px color-mix(in srgb, var(--color-9) 6%, transparent);
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.champ-groupe input[aria-invalid="true"],
-.champ-groupe select[aria-invalid="true"],
-.champ-groupe textarea[aria-invalid="true"] {
-    border-color: #b42318;
-    background: #fff8f7;
+.champ-groupe textarea {
+  border-radius: 1.35rem;
+  resize: vertical;
+}
+
+.champ-groupe input:focus,
+.champ-groupe select:focus,
+.champ-groupe textarea:focus {
+  border-color: var(--color-3);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-8) 25%, transparent);
+  outline: none;
+}
+
+.champ-groupe input::placeholder,
+.champ-groupe textarea::placeholder {
+  color: var(--texte-attenué);
+}
+
+.champ-groupe select,
+.filtre-campus select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1.1rem center;
+  background-size: 1.15rem;
+}
+
+.champ-groupe select,
+.champ-groupe select:focus,
+.filtre-campus select,
+.filtre-campus select:focus {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1.1rem center;
+  background-size: 1rem;
 }
 
 .aide-champ {
-    margin: 0;
-    color: #465d80;
-    font-size: 0.82rem;
+  margin: 0;
+  color: var(--texte-secondaire);
+  font-size: 0.83rem;
 }
 
 .compteur-depasse {
-    color: #b42318;
-    font-weight: 700;
+  display: inline-block;
+  padding: 0.08rem 0.5rem;
+  border-radius: 999px;
+  background: var(--color-4);
+  color: #ffffff;
+  font-weight: 700;
 }
 
 .message-erreur-champ {
-    margin: 0;
-    min-height: 1.1em;
-    color: #b42318;
-    font-size: 0.85rem;
-    font-weight: 600;
+  margin: 0;
+  min-height: 1.1em;
+  color: var(--color-4);
+  font-size: 0.85rem;
+  font-weight: 700;
 }
 
 .apercu-photo {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-top: 0.35rem;
-    padding: 0.5rem;
-    border: 1px solid #d6e2f2;
-    border-radius: 0.55rem;
-    background: #f8fbff;
-    font-size: 0.85rem;
-    color: #2b4266;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 0.35rem;
+  padding: 0.6rem;
+  border: 1px solid var(--bordure-douce);
+  border-radius: 0.8rem;
+  background: rgba(255, 255, 255, 0.8);
+  font-size: 0.86rem;
+  color: var(--texte-secondaire);
 }
 
 .apercu-photo[hidden] {
-    display: none;
+  display: none;
 }
 
 .apercu-photo img {
-    width: 56px;
-    height: 56px;
-    border-radius: 0.35rem;
-    object-fit: cover;
+  width: 58px;
+  height: 58px;
+  border: 1px solid var(--color-10);
+  border-radius: 0.5rem;
+  object-fit: cover;
 }
 
+/* Bouton primaire : dégradé signature violet -> bleu électrique -> cyan */
 .bouton-primaire {
-    justify-self: start;
-    padding: 0.7rem 1.25rem;
-    border: 0;
-    border-radius: 0.55rem;
-    background: #12346b;
-    color: #fff;
-    font: inherit;
-    font-size: 0.95rem;
-    font-weight: 700;
-    cursor: pointer;
+  justify-self: start;
+  padding: 0.72rem 1.35rem;
+  border: 0px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: linear-gradient(
+    135deg,
+    var(--color-4) 0%,
+    var(--color-3) 55%,
+    var(--color-8) 100%
+  );
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 750;
+  cursor: pointer;
+  box-shadow:
+    var(--halo-accent),
+    inset 0 1px 1px rgba(255, 255, 255, 0.45);
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
 }
 
 .bouton-primaire:hover {
-    background: #1a4994;
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow:
+    0 12px 26px -4px color-mix(in srgb, var(--color-4) 42%, transparent),
+    0 0 18px color-mix(in srgb, var(--color-11) 45%, transparent),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6);
 }
 
+/* Alertes — Verre coloré haute lisibilité */
 .alerte {
-    margin-top: 0.25rem;
-    padding: 0.95rem 1.1rem;
-    border-radius: 0.65rem;
-    font-size: 0.93rem;
-    line-height: 1.45;
+  margin-top: 1rem;
+  padding: 1rem 1.15rem;
+  border-radius: 0.9rem;
+  backdrop-filter: blur(12px);
+  font-size: 0.93rem;
+  line-height: 1.45;
 }
 
 .alerte[hidden] {
-    display: none;
+  display: none;
 }
 
 .alerte p {
-    margin: 0.45rem 0 0.85rem;
+  margin: 0.45rem 0 0.85rem;
 }
 
+/* Succès : cyan lumineux sur glace claire */
 .alerte-succes {
-    border: 1px solid #84ca9c;
-    background: #edfcf2;
-    color: #0f5132;
+  border: 1px solid var(--color-7);
+  border-left: 4px solid var(--color-3);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-11) 28%, #ffffff),
+    rgba(255, 255, 255, 0.88)
+  );
+  color: var(--color-2);
 }
 
+/* Erreur : violet profond du logo sur fond lavande clair */
 .alerte-erreur {
-    border: 1px solid #f5a39c;
-    background: #fef3f2;
-    color: #912018;
+  border: 1px solid color-mix(in srgb, var(--color-4) 45%, transparent);
+  border-left: 4px solid var(--color-4);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-4) 14%, #ffffff),
+    rgba(255, 255, 255, 0.9)
+  );
+  color: var(--color-9);
 }
 
+/* Info : bleu électrique + pervenche */
 .alerte-info {
-    border: 1px solid #9bb1cf;
-    background: #eef4fd;
-    color: #12346b;
+  border: 1px solid var(--color-8);
+  border-left: 4px solid var(--color-6);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-1) 65%, #ffffff),
+    rgba(255, 255, 255, 0.9)
+  );
+  color: var(--color-2);
 }
 
+/* Avertissement : indigo soutenu très visible */
 .alerte-avertissement {
-    border: 1px solid #f5c26b;
-    background: #fffbeb;
-    color: #7c4a03;
+  border: 1px solid var(--color-6);
+  border-left: 4px solid var(--color-9);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-10) 55%, #ffffff),
+    color-mix(in srgb, var(--color-6) 15%, #ffffff)
+  );
+  color: var(--color-9);
+}
+
+/* =========================================================
+   5. PAIEMENT SIMULÉ & SÉQUESTRE (US #160)
+   ========================================================= */
+.grille-champs-paiement {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.recapitulatif-commande {
+  padding: 1.15rem;
+  border: 1px solid color-mix(in srgb, var(--color-6) 28%, #ffffff);
+  border-radius: 1rem;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.88),
+    color-mix(in srgb, var(--color-1) 45%, #ffffff)
+  );
+  box-shadow: inset 0 1px 0 #ffffff;
+}
+
+.recapitulatif-commande h3 {
+  margin: 0 0 0.75rem;
+  color: var(--color-4);
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.liste-recapitulatif {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.liste-recapitulatif li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--texte-principal);
+  font-size: 0.95rem;
+}
+
+.section-transactions {
+  margin-top: 1.75rem;
+}
+
+.liste-transactions {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.carte-transaction {
+  padding: 1.15rem;
+  border: 1px solid var(--bordure-verre);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 6px 18px -6px
+    color-mix(in srgb, var(--color-9) 10%, transparent);
+  display: grid;
+  gap: 0.65rem;
+}
+
+.entete-transaction {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.entete-transaction h3 {
+  margin: 0;
+  color: var(--color-2);
+  font-size: 1rem;
+}
+
+.details-transaction {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--texte-secondaire);
+}
+
+.actions-transaction {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.badge-statut {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.01em;
+}
+
+/* En séquestre / en attente : pervenche & indigo */
+.statut-en_sequestre,
+.statut-sequestre,
+.statut-en_attente {
+  border: 1px solid color-mix(in srgb, var(--color-6) 55%, transparent);
+  background: color-mix(in srgb, var(--color-6) 16%, #ffffff);
+  color: var(--color-9);
+}
+
+/* Libérée / complétée : cyan glacier vif */
+.statut-liberee,
+.statut-completee {
+  border: 1px solid var(--color-7);
+  background: linear-gradient(135deg, var(--color-11), var(--color-1));
+  color: var(--color-2);
+}
+
+/* Remboursée / annulée : contour bleu ciel doux */
+.statut-remboursee,
+.statut-annulee {
+  border: 1px solid var(--color-8);
+  background: #ffffff;
+  color: var(--color-5);
+}
+
+/* Échouée : violet plein haute visibilité */
+.statut-echouee {
+  border: 1px solid var(--color-4);
+  background: linear-gradient(135deg, var(--color-4), var(--color-9));
+  color: #ffffff;
+}
+
+.bouton-acheter-catalogue {
+  margin-top: 0.85rem;
+  width: 100%;
+}
+
+/* =========================================================
+   6. PIED DE PAGE (FOOTER) — Architecture indigo-violet
+   ========================================================= */
+.pied-de-page {
+  position: relative;
+  margin-top: auto;
+  padding-block: 2.75rem 1.75rem;
+  background:
+    radial-gradient(
+      circle at 15% 0%,
+      color-mix(in srgb, var(--color-6) 32%, transparent),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 88% 100%,
+      color-mix(in srgb, var(--color-11) 22%, transparent),
+      transparent 42%
+    ),
+    linear-gradient(
+      135deg,
+      var(--color-9) 0%,
+      var(--color-4) 48%,
+      var(--color-2) 100%
+    );
+  color: var(--color-1);
+  box-shadow: 0 -12px 36px -12px
+    color-mix(in srgb, var(--color-9) 35%, transparent);
+}
+
+/* Ligne supérieure lumineuse prismatique */
+.pied-de-page::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--color-11) 0%,
+    var(--color-3) 35%,
+    var(--color-6) 70%,
+    var(--color-4) 100%
+  );
+}
+
+.pied-grille {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(2, minmax(160px, 1fr));
+  gap: 2rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.pied-marque p {
+  margin: 0.75rem 0 0;
+  max-width: 38ch;
+  color: var(--color-10);
+  font-size: 0.9rem;
+}
+
+.pied-colonne h3 {
+  margin: 0 0 0.75rem;
+  color: var(--color-11);
+  font-size: 0.85rem;
+  font-weight: 750;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.pied-liens {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.pied-liens a {
+  color: var(--color-1);
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition:
+    color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.pied-liens a:hover {
+  color: var(--color-11);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.pied-bas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 1.25rem;
+  color: var(--color-10);
+  font-size: 0.84rem;
+}
+
+.pied-badge-verre {
+  padding: 0.3rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 700px) {
+  .entete-contenu {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navigation {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: min(100%, 480px);
+    border-radius: 2rem;
+    gap: 0.45rem;
+    padding: 0.7rem;
+  }
+
+  .onglet {
+    width: 100%;
+    padding: 0.5rem 0.4rem;
+    text-align: center;
+  }
+
+  .barre-catalogue {
+    padding: 1rem 1.1rem;
+  }
+
+  .pied-grille {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 }

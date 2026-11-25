@@ -152,6 +152,20 @@ function creerCarteAnnonce(annonce, livre, nomCampus) {
     contenu.append(remise);
   }
 
+  const boutonAcheter = document.createElement("button");
+  boutonAcheter.type = "button";
+  boutonAcheter.className = "bouton-primaire bouton-acheter-catalogue";
+  boutonAcheter.textContent = "Acheter ce livre";
+  boutonAcheter.addEventListener("click", () => {
+    document.dispatchEvent(
+      new CustomEvent("campusbooks:selectionner-annonce-paiement", {
+        detail: { annonceId: annonce.id },
+      }),
+    );
+  });
+
+  contenu.append(boutonAcheter);
+
   carte.append(
     creerGalerieAnnonce(obtenirPhotos(annonce, livre), titreLivre),
     contenu,

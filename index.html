@@ -1,308 +1,628 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr-CA">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CampusBooks — Livres usagés</title>
-    <link rel="stylesheet" href="./css/styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CampusBooks</title>
+    <link rel="icon" type="image/png" href="assets/Logo.png" />
+    <link rel="stylesheet" href="./css/styles.css" />
     <script type="module" src="./js/app.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <header class="entete">
-        <div class="conteneur entete-contenu">
-            <a class="marque" href="./index.html">CampusBooks</a>
+      <div class="conteneur entete-contenu">
+        <a class="marque" href="./index.html">
+          <img
+            class="marque-logo"
+            src="assets/Logo.png"
+            alt=""
+            width="52"
+            height="52"
+          />
+          <span>CampusBooks</span>
+        </a>
 
-            <nav class="navigation" aria-label="Fonctionnalités">
-                <button type="button" class="onglet actif" data-vue="catalogue" aria-pressed="true">
-                    Catalogue
-                </button>
-                <button type="button" class="onglet" data-vue="inscription" aria-pressed="false">
-                    Inscription
-                </button>
-                <button type="button" class="onglet" data-vue="publier" aria-pressed="false">
-                    Vendre un livre
-                </button>
-                <button type="button" class="onglet" data-vue="paiement" aria-pressed="false">
-                    Paiement
-                </button>
-            </nav>
-        </div>
+        <nav class="navigation" aria-label="Fonctionnalités">
+          <button
+            type="button"
+            class="onglet actif"
+            data-vue="catalogue"
+            aria-pressed="true"
+          >
+            Catalogue
+          </button>
+          <button
+            type="button"
+            class="onglet"
+            data-vue="inscription"
+            aria-pressed="false"
+          >
+            Inscription
+          </button>
+          <button
+            type="button"
+            class="onglet"
+            data-vue="publier"
+            aria-pressed="false"
+          >
+            Vendre un livre
+          </button>
+          <button
+            type="button"
+            class="onglet"
+            data-vue="paiement"
+            aria-pressed="false"
+          >
+            Paiement
+          </button>
+        </nav>
+      </div>
     </header>
 
-    <section class="barre-demo" aria-label="Contrôles de démonstration et tests">
-        <div class="conteneur barre-demo-contenu">
-            <div class="controle-demo">
-                <label for="select-donnees">Jeu de données</label>
-                <select id="select-donnees">
-                    <option value="normal.json">normal.json (Nominal)</option>
-                    <option value="limites.json">limites.json (Bornes)</option>
-                    <option value="erreurs.json">erreurs.json (Erreurs)</option>
-                </select>
-            </div>
-
-            <div class="controle-demo">
-                <label for="select-profil">Profil actif</label>
-                <select id="select-profil" disabled>
-                    <option value="">Chargement…</option>
-                </select>
-            </div>
-
-            <button type="button" id="btn-reinitialiser" class="bouton-secondaire">
-                Réinitialiser
-            </button>
+    <section
+      class="barre-demo"
+      aria-label="Contrôles de démonstration et tests"
+    >
+      <div class="conteneur barre-demo-contenu">
+        <div class="controle-demo">
+          <label for="select-donnees">Jeu de données</label>
+          <select id="select-donnees">
+            <option value="normal.json">Normal</option>
+            <option value="limites.json">Limites</option>
+            <option value="erreurs.json">Erreurs</option>
+          </select>
         </div>
+
+        <div class="controle-demo">
+          <label for="select-profil">Profil actif</label>
+          <select id="select-profil" disabled>
+            <option value="">Chargement…</option>
+          </select>
+        </div>
+
+        <button type="button" id="btn-reinitialiser" class="bouton-secondaire">
+          Réinitialiser
+        </button>
+      </div>
     </section>
 
     <main class="conteneur principal">
-        <!-- US #158 — Filtrage des annonces par campus (Mirko) -->
-        <section id="vue-catalogue" class="vue-section">
-            <div class="barre-catalogue">
-                <h1>Livres usagés</h1>
+      <!-- US #158 — Filtrage des annonces par campus (Mirko) -->
+      <section id="vue-catalogue" class="vue-section">
+        <div class="barre-catalogue">
+          <h1>Livres usagés</h1>
 
-                <div class="filtre-campus">
-                    <label for="campus">Filtrer par campus</label>
-                    <select id="campus" disabled>
-                        <option value="">Tous les campus</option>
-                    </select>
-                </div>
+          <div class="filtre-campus">
+            <label for="campus">Filtrer par campus</label>
+            <select id="campus" disabled>
+              <option value="">Tous les campus</option>
+            </select>
+          </div>
+        </div>
+
+        <p id="message-catalogue" role="status">Chargement des annonces…</p>
+        <div id="annonces" class="grille-annonces" aria-label="Annonces"></div>
+      </section>
+
+      <!-- US #164 — Inscription utilisateur (Becy) -->
+      <section id="vue-inscription" class="vue-section" hidden>
+        <div class="barre-catalogue">
+          <h1>Créer un compte</h1>
+        </div>
+
+        <div class="panneau-module panneau-formulaire">
+          <form id="form-inscription" class="formulaire-cb" novalidate>
+            <div class="champ-groupe">
+              <label for="inscription-nom">Nom complet *</label>
+              <input
+                type="text"
+                id="inscription-nom"
+                name="nom"
+                placeholder="Ex. Marie-Pier Côté"
+                required
+              />
+              <p
+                id="erreur-inscription-nom"
+                class="message-erreur-champ"
+                aria-live="polite"
+              ></p>
             </div>
 
-            <p id="message-catalogue" role="status">Chargement des annonces…</p>
-            <div id="annonces" class="grille-annonces" aria-label="Annonces"></div>
-        </section>
-
-        <!-- US #164 — Inscription utilisateur (Becy) -->
-        <section id="vue-inscription" class="vue-section" hidden>
-            <div class="barre-catalogue">
-                <h1>Créer un compte</h1>
+            <div class="champ-groupe">
+              <label for="inscription-courriel">Courriel académique *</label>
+              <input
+                type="email"
+                id="inscription-courriel"
+                name="courriel"
+                placeholder="Ex. prenom.nom@etu.cegepmontpetit.ca"
+                required
+              />
+              <p class="aide-champ">
+                Doit provenir d'un domaine académique reconnu (ex.
+                @etu.cegepmontpetit.ca, @uqam.ca, @usherbrooke.ca).
+              </p>
+              <p
+                id="erreur-inscription-courriel"
+                class="message-erreur-champ"
+                aria-live="polite"
+              ></p>
             </div>
 
-            <div class="panneau-module panneau-formulaire">
-                <form id="form-inscription" class="formulaire-cb" novalidate>
-                    <div class="champ-groupe">
-                        <label for="inscription-nom">Nom complet *</label>
-                        <input
-                            type="text"
-                            id="inscription-nom"
-                            name="nom"
-                            placeholder="Ex. Marie-Pier Côté"
-                            required
-                        >
-                        <p id="erreur-inscription-nom" class="message-erreur-champ" aria-live="polite"></p>
-                    </div>
-
-                    <div class="champ-groupe">
-                        <label for="inscription-courriel">Courriel académique *</label>
-                        <input
-                            type="email"
-                            id="inscription-courriel"
-                            name="courriel"
-                            placeholder="Ex. prenom.nom@etu.cegepmontpetit.ca"
-                            required
-                        >
-                        <p class="aide-champ">
-                            Doit provenir d'un domaine académique reconnu (ex. @etu.cegepmontpetit.ca, @uqam.ca, @usherbrooke.ca).
-                        </p>
-                        <p id="erreur-inscription-courriel" class="message-erreur-champ" aria-live="polite"></p>
-                    </div>
-
-                    <div class="champ-groupe">
-                        <label for="inscription-mdp">Mot de passe *</label>
-                        <input
-                            type="password"
-                            id="inscription-mdp"
-                            name="motDePasse"
-                            placeholder="Minimum 8 caractères"
-                            required
-                        >
-                        <p class="aide-champ">
-                            Exigences : au moins 8 caractères, 1 majuscule, 1 chiffre et 1 caractère spécial.
-                        </p>
-                        <p id="erreur-inscription-mdp" class="message-erreur-champ" aria-live="polite"></p>
-                    </div>
-
-                    <div class="champ-groupe">
-                        <label for="inscription-role">Statut académique (Rôle) *</label>
-                        <select id="inscription-role" name="role">
-                            <option value="Student">Étudiant (Student)</option>
-                            <option value="Professor">Professeur (Professor)</option>
-                        </select>
-                    </div>
-
-                    <div id="groupe-numero-etudiant" class="champ-groupe">
-                        <label for="inscription-numero-etudiant">Numéro d'étudiant *</label>
-                        <input
-                            type="text"
-                            id="inscription-numero-etudiant"
-                            name="numeroEtudiant"
-                            inputmode="numeric"
-                            placeholder="Ex. 20241005"
-                        >
-                        <p id="erreur-inscription-numero-etudiant" class="message-erreur-champ" aria-live="polite"></p>
-                    </div>
-
-                    <div id="groupe-departement" class="champ-groupe" hidden>
-                        <label for="inscription-departement">Département *</label>
-                        <input
-                            type="text"
-                            id="inscription-departement"
-                            name="departement"
-                            placeholder="Ex. Informatique"
-                        >
-                        <p id="erreur-inscription-departement" class="message-erreur-champ" aria-live="polite"></p>
-                    </div>
-
-                    <div class="champ-groupe">
-                        <label for="inscription-campus">Établissement (Zone pilote de Longueuil) *</label>
-                        <select id="inscription-campus" name="campusId" required>
-                            <option value="">Sélectionner votre établissement à Longueuil</option>
-                        </select>
-                        <p id="erreur-inscription-campus" class="message-erreur-champ" aria-live="polite"></p>
-                    </div>
-
-                    <button type="submit" class="bouton-primaire">Créer mon compte</button>
-                </form>
-
-                <div id="resultat-inscription" class="alerte" role="status" aria-live="polite" hidden></div>
-            </div>
-        </section>
-
-        <!-- US #167 — Publication d'une annonce avec ISBN (Radmehr) -->
-        <section id="vue-publier" class="vue-section" hidden>
-            <div class="barre-catalogue">
-                <h1>Vendre un livre</h1>
+            <div class="champ-groupe">
+              <label for="inscription-mdp">Mot de passe *</label>
+              <input
+                type="password"
+                id="inscription-mdp"
+                name="motDePasse"
+                placeholder="Minimum 8 caractères"
+                required
+              />
+              <p class="aide-champ">
+                Exigences : au moins 8 caractères, 1 majuscule, 1 chiffre et 1
+                caractère spécial.
+              </p>
+              <p
+                id="erreur-inscription-mdp"
+                class="message-erreur-champ"
+                aria-live="polite"
+              ></p>
             </div>
 
-            <div class="panneau-module panneau-formulaire">
-                <p id="bandeau-vendeur-annonce" class="bandeau-vendeur"></p>
-
-                <form id="form-annonce" class="formulaire-cb" novalidate>
-                    <div class="champ-groupe">
-                        <label for="annonce-isbn">Code ISBN (10 ou 13 chiffres) *</label>
-                        <div class="champ-ligne">
-                            <input
-                                type="text"
-                                id="annonce-isbn"
-                                name="isbn"
-                                inputmode="numeric"
-                                placeholder="Ex. 9782761398459 ou 2765054126"
-                                required
-                            >
-                            <button type="button" id="btn-rechercher-isbn" class="bouton-secondaire">
-                                Rechercher ISBN
-                            </button>
-                        </div>
-                        <p class="aide-champ">
-                            Interroge le catalogue Google Books (simulé) pour pré-remplir le titre et l'auteur.
-                        </p>
-                        <p id="erreur-annonce-isbn" class="message-erreur-champ" aria-live="polite"></p>
-                    </div>
-
-                    <div id="statut-isbn" class="alerte" role="status" aria-live="polite" hidden></div>
-
-                    <div class="champ-groupe">
-                        <label for="annonce-titre">Titre du manuel *</label>
-                        <input
-                            type="text"
-                            id="annonce-titre"
-                            name="titre"
-                            placeholder="Pré-rempli par ISBN ou saisi manuellement"
-                            required
-                        >
-                        <p id="erreur-annonce-titre" class="message-erreur-champ" aria-live="polite"></p>
-                    </div>
-
-                    <div class="champ-groupe">
-                        <label for="annonce-auteur">Auteur(s) *</label>
-                        <input
-                            type="text"
-                            id="annonce-auteur"
-                            name="auteur"
-                            placeholder="Ex. Marc-André Pelletier"
-                            required
-                        >
-                        <p id="erreur-annonce-auteur" class="message-erreur-champ" aria-live="polite"></p>
-                    </div>
-
-                    <div class="champ-groupe">
-                        <label for="annonce-prix">Prix demandé ($ CAD) *</label>
-                        <input
-                            type="number"
-                            id="annonce-prix"
-                            name="prix"
-                            step="0.01"
-                            min="0.01"
-                            max="500"
-                            placeholder="Entre 0,01 $ et 500,00 $"
-                            required
-                        >
-                        <p id="erreur-annonce-prix" class="message-erreur-champ" aria-live="polite"></p>
-                    </div>
-
-                    <div class="champ-groupe">
-                        <label for="annonce-etat">État physique du livre *</label>
-                        <select id="annonce-etat" name="etat" required>
-                            <option value="NEUF">Neuf</option>
-                            <option value="TRES_BON" selected>Très bon état</option>
-                            <option value="BON">Bon état</option>
-                            <option value="ACCEPTABLE">État acceptable</option>
-                        </select>
-                        <p id="erreur-annonce-etat" class="message-erreur-champ" aria-live="polite"></p>
-                    </div>
-
-                    <div class="champ-groupe">
-                        <label for="annonce-description">Description (300 caractères maximum)</label>
-                        <textarea
-                            id="annonce-description"
-                            name="description"
-                            rows="3"
-                            placeholder="Précisez l'état des pages, les annotations éventuelles ou le cours associé…"
-                        ></textarea>
-                        <p id="compteur-description" class="aide-champ">0 / 300 caractères</p>
-                        <p id="erreur-annonce-description" class="message-erreur-champ" aria-live="polite"></p>
-                    </div>
-
-                    <div class="champ-groupe">
-                        <label for="annonce-remise">Point de remise suggéré sur le campus</label>
-                        <input
-                            type="text"
-                            id="annonce-remise"
-                            name="pointRemise"
-                            placeholder="Ex. Cafétéria principale — Bloc A"
-                        >
-                    </div>
-
-                    <div class="champ-groupe">
-                        <label for="annonce-photo">Photo du manuel (.jpg ou .png, max 5 Mo) *</label>
-                        <input
-                            type="file"
-                            id="annonce-photo"
-                            name="photo"
-                            accept=".jpg,.jpeg,.png"
-                            required
-                        >
-                        <p id="erreur-annonce-photo" class="message-erreur-champ" aria-live="polite"></p>
-                        <div id="apercu-photo-annonce" class="apercu-photo" hidden></div>
-                    </div>
-
-                    <button type="submit" class="bouton-primaire">Publier l'annonce</button>
-                </form>
-
-                <div id="resultat-annonce" class="alerte" role="status" aria-live="polite" hidden></div>
+            <div class="champ-groupe">
+              <label for="inscription-role">Statut académique (Rôle) *</label>
+              <select id="inscription-role" name="role">
+                <option value="Student">Étudiant (Student)</option>
+                <option value="Professor">Professeur (Professor)</option>
+              </select>
             </div>
-        </section>
 
-        <!-- US #160 — Paiement simulé et séquestre (Zhannette) -->
-        <section id="vue-paiement" class="vue-section" hidden>
-            <div class="barre-catalogue">
-                <h1>Paiement sécurisé</h1>
+            <div id="groupe-numero-etudiant" class="champ-groupe">
+              <label for="inscription-numero-etudiant"
+                >Numéro d'étudiant *</label
+              >
+              <input
+                type="text"
+                id="inscription-numero-etudiant"
+                name="numeroEtudiant"
+                inputmode="numeric"
+                placeholder="Ex. 20241005"
+              />
+              <p
+                id="erreur-inscription-numero-etudiant"
+                class="message-erreur-champ"
+                aria-live="polite"
+              ></p>
             </div>
-            <div id="conteneur-paiement" class="panneau-module">
-                <p class="note-module">
-                    Module prêt pour l'US #160 (<code>js/paiement.js</code>).
-                </p>
+
+            <div id="groupe-departement" class="champ-groupe" hidden>
+              <label for="inscription-departement">Département *</label>
+              <input
+                type="text"
+                id="inscription-departement"
+                name="departement"
+                placeholder="Ex. Informatique"
+              />
+              <p
+                id="erreur-inscription-departement"
+                class="message-erreur-champ"
+                aria-live="polite"
+              ></p>
             </div>
-        </section>
+
+            <div class="champ-groupe">
+              <label for="inscription-campus"
+                >Établissement (Zone pilote de Longueuil) *</label
+              >
+              <select id="inscription-campus" name="campusId" required>
+                <option value="">
+                  Sélectionner votre établissement à Longueuil
+                </option>
+              </select>
+              <p
+                id="erreur-inscription-campus"
+                class="message-erreur-champ"
+                aria-live="polite"
+              ></p>
+            </div>
+
+            <button type="submit" class="bouton-primaire">
+              Créer mon compte
+            </button>
+          </form>
+
+          <div
+            id="resultat-inscription"
+            class="alerte"
+            role="status"
+            aria-live="polite"
+            hidden
+          ></div>
+        </div>
+      </section>
+
+      <!-- US #167 — Publication d'une annonce avec ISBN (Radmehr) -->
+      <section id="vue-publier" class="vue-section" hidden>
+        <div class="barre-catalogue">
+          <h1>Vendre un livre</h1>
+        </div>
+
+        <div class="panneau-module panneau-formulaire">
+          <p id="bandeau-vendeur-annonce" class="bandeau-vendeur"></p>
+
+          <form id="form-annonce" class="formulaire-cb" novalidate>
+            <div class="champ-groupe">
+              <label for="annonce-isbn">Code ISBN (10 ou 13 chiffres) *</label>
+              <div class="champ-ligne">
+                <input
+                  type="text"
+                  id="annonce-isbn"
+                  name="isbn"
+                  inputmode="numeric"
+                  placeholder="Ex. 9782761398459 ou 2765054126"
+                  required
+                />
+                <button
+                  type="button"
+                  id="btn-rechercher-isbn"
+                  class="bouton-secondaire"
+                >
+                  Rechercher ISBN
+                </button>
+              </div>
+              <p class="aide-champ">
+                Interroge le catalogue Google Books (simulé) pour pré-remplir le
+                titre et l'auteur.
+              </p>
+              <p
+                id="erreur-annonce-isbn"
+                class="message-erreur-champ"
+                aria-live="polite"
+              ></p>
+            </div>
+
+            <div
+              id="statut-isbn"
+              class="alerte"
+              role="status"
+              aria-live="polite"
+              hidden
+            ></div>
+
+            <div class="champ-groupe">
+              <label for="annonce-titre">Titre du manuel *</label>
+              <input
+                type="text"
+                id="annonce-titre"
+                name="titre"
+                placeholder="Pré-rempli par ISBN ou saisi manuellement"
+                required
+              />
+              <p
+                id="erreur-annonce-titre"
+                class="message-erreur-champ"
+                aria-live="polite"
+              ></p>
+            </div>
+
+            <div class="champ-groupe">
+              <label for="annonce-auteur">Auteur(s) *</label>
+              <input
+                type="text"
+                id="annonce-auteur"
+                name="auteur"
+                placeholder="Ex. Marc-André Pelletier"
+                required
+              />
+              <p
+                id="erreur-annonce-auteur"
+                class="message-erreur-champ"
+                aria-live="polite"
+              ></p>
+            </div>
+
+            <div class="champ-groupe">
+              <label for="annonce-prix">Prix demandé ($ CAD) *</label>
+              <input
+                type="number"
+                id="annonce-prix"
+                name="prix"
+                step="0.01"
+                min="0.01"
+                max="500"
+                placeholder="Entre 0,01 $ et 500,00 $"
+                required
+              />
+              <p
+                id="erreur-annonce-prix"
+                class="message-erreur-champ"
+                aria-live="polite"
+              ></p>
+            </div>
+
+            <div class="champ-groupe">
+              <label for="annonce-etat">État physique du livre *</label>
+              <select id="annonce-etat" name="etat" required>
+                <option value="NEUF">Neuf</option>
+                <option value="TRES_BON" selected>Très bon état</option>
+                <option value="BON">Bon état</option>
+                <option value="ACCEPTABLE">État acceptable</option>
+              </select>
+              <p
+                id="erreur-annonce-etat"
+                class="message-erreur-champ"
+                aria-live="polite"
+              ></p>
+            </div>
+
+            <div class="champ-groupe">
+              <label for="annonce-description"
+                >Description (300 caractères maximum)</label
+              >
+              <textarea
+                id="annonce-description"
+                name="description"
+                rows="3"
+                placeholder="Précisez l'état des pages, les annotations éventuelles ou le cours associé…"
+              ></textarea>
+              <p id="compteur-description" class="aide-champ">
+                0 / 300 caractères
+              </p>
+              <p
+                id="erreur-annonce-description"
+                class="message-erreur-champ"
+                aria-live="polite"
+              ></p>
+            </div>
+
+            <div class="champ-groupe">
+              <label for="annonce-remise"
+                >Point de remise suggéré sur le campus</label
+              >
+              <input
+                type="text"
+                id="annonce-remise"
+                name="pointRemise"
+                placeholder="Ex. Cafétéria principale — Bloc A"
+              />
+            </div>
+
+            <div class="champ-groupe">
+              <label for="annonce-photo"
+                >Photo du manuel (.jpg ou .png, max 5 Mo) *</label
+              >
+              <input
+                type="file"
+                id="annonce-photo"
+                name="photo"
+                accept=".jpg,.jpeg,.png"
+                required
+              />
+              <p
+                id="erreur-annonce-photo"
+                class="message-erreur-champ"
+                aria-live="polite"
+              ></p>
+              <div id="apercu-photo-annonce" class="apercu-photo" hidden></div>
+            </div>
+
+            <button type="submit" class="bouton-primaire">
+              Publier l'annonce
+            </button>
+          </form>
+
+          <div
+            id="resultat-annonce"
+            class="alerte"
+            role="status"
+            aria-live="polite"
+            hidden
+          ></div>
+        </div>
+      </section>
+
+      <!-- US #160 — Paiement simulé et séquestre (Zhannette) -->
+      <section id="vue-paiement" class="vue-section" hidden>
+        <div class="barre-catalogue">
+          <h1>Paiement sécurisé et séquestre</h1>
+        </div>
+
+        <div class="panneau-module panneau-formulaire">
+          <p id="bandeau-acheteur-paiement" class="bandeau-vendeur"></p>
+          <div
+            id="info-simulation-paiement"
+            class="alerte"
+            role="status"
+            hidden
+          ></div>
+
+          <form id="form-paiement" class="formulaire-cb" novalidate>
+            <div class="champ-groupe">
+              <label for="paiement-annonce">Annonce à acheter *</label>
+              <select id="paiement-annonce" name="annonceId" required>
+                <option value="">Sélectionner un manuel disponible…</option>
+              </select>
+              <p
+                id="erreur-paiement-annonce"
+                class="message-erreur-champ"
+                aria-live="polite"
+              ></p>
+            </div>
+
+            <div
+              id="recapitulatif-commande"
+              class="recapitulatif-commande"
+              hidden
+            ></div>
+
+            <div class="champ-groupe">
+              <label for="paiement-titulaire">Nom sur la carte *</label>
+              <input
+                type="text"
+                id="paiement-titulaire"
+                name="titulaire"
+                placeholder="Ex. Zhannette Omri"
+                autocomplete="cc-name"
+                required
+              />
+              <p
+                id="erreur-paiement-titulaire"
+                class="message-erreur-champ"
+                aria-live="polite"
+              ></p>
+            </div>
+
+            <div class="champ-groupe">
+              <label for="paiement-carte"
+                >Numéro de carte (16 chiffres) *</label
+              >
+              <input
+                type="text"
+                id="paiement-carte"
+                name="numeroCarte"
+                inputmode="numeric"
+                maxlength="19"
+                placeholder="6969 6969 6969 6969"
+                autocomplete="cc-number"
+                required
+              />
+              <p class="aide-champ">
+                Paiement simulé (Stripe). Les fonds restent en séquestre jusqu'à
+                la confirmation de remise sur le campus.
+              </p>
+              <p
+                id="erreur-paiement-carte"
+                class="message-erreur-champ"
+                aria-live="polite"
+              ></p>
+            </div>
+
+            <div class="grille-champs-paiement">
+              <div class="champ-groupe">
+                <label for="paiement-expiration"
+                  >Date d'expiration (MM/AA) *</label
+                >
+                <input
+                  type="text"
+                  id="paiement-expiration"
+                  name="expiration"
+                  inputmode="numeric"
+                  maxlength="5"
+                  placeholder="08/28"
+                  autocomplete="cc-exp"
+                  required
+                />
+                <p
+                  id="erreur-paiement-expiration"
+                  class="message-erreur-champ"
+                  aria-live="polite"
+                ></p>
+              </div>
+
+              <div class="champ-groupe">
+                <label for="paiement-cvc">Code CVC (3 ou 4 chiffres) *</label>
+                <input
+                  type="text"
+                  id="paiement-cvc"
+                  name="cvc"
+                  inputmode="numeric"
+                  maxlength="4"
+                  placeholder="420"
+                  autocomplete="cc-csc"
+                  required
+                />
+                <p
+                  id="erreur-paiement-cvc"
+                  class="message-erreur-champ"
+                  aria-live="polite"
+                ></p>
+              </div>
+            </div>
+
+            <button type="submit" class="bouton-primaire">
+              Payer et bloquer en séquestre
+            </button>
+          </form>
+
+          <div
+            id="resultat-paiement"
+            class="alerte"
+            role="status"
+            aria-live="polite"
+            hidden
+          ></div>
+        </div>
+
+        <div class="panneau-module section-transactions">
+          <h2 style="margin-top: 0px">Suivi des transactions et séquestre</h2>
+          <div id="liste-transactions" class="liste-transactions"></div>
+        </div>
+      </section>
     </main>
-</body>
+
+    <footer class="pied-de-page">
+      <div class="conteneur">
+        <div class="pied-grille">
+          <div class="pied-marque">
+            <a class="marque" href="./index.html">
+              <img
+                class="marque-logo"
+                src="assets/Logo.png"
+                alt=""
+                width="34"
+                height="34"
+              />
+              <span>CampusBooks</span>
+            </a>
+            <p>
+              Plateforme étudiante d'achat et de revente de livres usagés dans
+              la zone pilote de Longueuil, avec paiement protégé par séquestre.
+            </p>
+          </div>
+
+          <div class="pied-colonne">
+            <h3>Navigation</h3>
+            <ul class="pied-liens">
+              <li>
+                <a href="#vue-catalogue" data-vue="catalogue">Catalogue</a>
+              </li>
+              <li>
+                <a href="#vue-inscription" data-vue="inscription"
+                  >Inscription</a
+                >
+              </li>
+              <li>
+                <a href="#vue-publier" data-vue="publier">Vendre un livre</a>
+              </li>
+              <li><a href="#vue-paiement" data-vue="paiement">Paiement</a></li>
+            </ul>
+          </div>
+
+          <div class="pied-colonne">
+            <h3>Sécurité &amp; Campus</h3>
+            <ul class="pied-liens">
+              <li>
+                <a href="#liste-transactions" data-vue="paiement"
+                  >Suivi des transactions et séquestre</a
+                >
+              </li>
+              <li>
+                <a href="#vue-catalogue" data-vue="catalogue"
+                  >Filtrer par campus (Longueuil)</a
+                >
+              </li>
+              <li>
+                <a href="#vue-inscription" data-vue="inscription"
+                  >Accès par courriel académique</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pied-bas">
+          <span>© 2026 CampusBooks — Zone pilote de Longueuil.</span>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>

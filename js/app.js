@@ -1,6 +1,7 @@
 import { initialiserCatalogue, mettreAJourCatalogue } from "./catalogue.js";
 import { initialiserInscription } from "./inscription.js";
 import { initialiserAnnonces } from "./annonces.js";
+import { initialiserPaiement } from "./paiement.js";
 
 /**
  * État partagé en mémoire pour les 4 User Stories.
@@ -35,7 +36,7 @@ export function notifierChangementEtat() {
   );
 }
 
-export function afficherVue(nomVue) {
+export function afficherVue(nomVue, remonter = true) {
   const sections = document.querySelectorAll(".vue-section");
   const onglets = document.querySelectorAll(".onglet");
 
@@ -47,6 +48,10 @@ export function afficherVue(nomVue) {
     const estActif = onglet.dataset.vue === nomVue;
     onglet.classList.toggle("actif", estActif);
     onglet.setAttribute("aria-pressed", String(estActif));
+  }
+
+  if (remonter) {
+    window.scrollTo(0, 0);
   }
 }
 
@@ -113,6 +118,22 @@ function initialiserNavigation() {
       afficherVue(onglet.dataset.vue);
     });
   }
+
+  const liensPied = document.querySelectorAll(".pied-liens a[data-vue]");
+  for (const lien of liensPied) {
+    lien.addEventListener("click", (event) => {
+      event.preventDefault();
+      const vue = lien.dataset.vue;
+      afficherVue(vue, false);
+
+      const cible = lien.getAttribute("href");
+      if (cible && cible !== `#vue-${vue}`) {
+        document.querySelector(cible)?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+  }
 }
 
 function initialiserControlesDemo() {
@@ -144,6 +165,7 @@ function demarrerApplication() {
   initialiserCatalogue();
   initialiserInscription();
   initialiserAnnonces();
+  initialiserPaiement();
   chargerJeuDonnees("normal.json");
 }
 
