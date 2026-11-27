@@ -36,6 +36,33 @@ export function notifierChangementEtat() {
   );
 }
 
+function deplacerIndicateurNav() {
+  const nav = document.querySelector(".navigation");
+  const actif = nav?.querySelector(".onglet.actif");
+  if (!nav || !actif) return;
+
+  const rectNav = nav.getBoundingClientRect();
+  const rectActif = actif.getBoundingClientRect();
+
+  nav.style.setProperty(
+    "--pill-x",
+    `${rectActif.left - rectNav.left - nav.clientLeft}px`,
+  );
+  nav.style.setProperty(
+    "--pill-y",
+    `${rectActif.top - rectNav.top - nav.clientTop}px`,
+  );
+  nav.style.setProperty("--pill-w", `${rectActif.width}px`);
+  nav.style.setProperty("--pill-h", `${rectActif.height}px`);
+  nav.style.setProperty("--pill-opacite", "1");
+
+  if (!nav.classList.contains("indicateur-anime")) {
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => nav.classList.add("indicateur-anime")),
+    );
+  }
+}
+
 export function afficherVue(nomVue, remonter = true) {
   const sections = document.querySelectorAll(".vue-section");
   const onglets = document.querySelectorAll(".onglet");
@@ -49,6 +76,8 @@ export function afficherVue(nomVue, remonter = true) {
     onglet.classList.toggle("actif", estActif);
     onglet.setAttribute("aria-pressed", String(estActif));
   }
+
+  deplacerIndicateurNav();
 
   if (remonter) {
     window.scrollTo(0, 0);
@@ -117,6 +146,12 @@ function initialiserNavigation() {
     onglet.addEventListener("click", () => {
       afficherVue(onglet.dataset.vue);
     });
+  }
+
+  const nav = document.querySelector(".navigation");
+  if (nav) {
+    deplacerIndicateurNav();
+    new ResizeObserver(deplacerIndicateurNav).observe(nav);
   }
 
   const liensPied = document.querySelectorAll(".pied-liens a[data-vue]");

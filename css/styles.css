@@ -182,6 +182,7 @@ footer .marque-logo {
 }
 
 .navigation {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
@@ -192,7 +193,41 @@ footer .marque-logo {
   backdrop-filter: blur(10px);
 }
 
+.navigation::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: var(--pill-w, 0px);
+  height: var(--pill-h, 0px);
+  transform: translate3d(var(--pill-x, 0px), var(--pill-y, 0px), 0);
+  opacity: var(--pill-opacite, 0);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    var(--color-1) 55%,
+    var(--color-11) 100%
+  );
+  box-shadow:
+    0 4px 16px color-mix(in srgb, var(--color-11) 40%, transparent),
+    inset 0 1px 0 #ffffff;
+  pointer-events: none;
+}
+
+/* Ajouté : active la glissade style iOS / One UI après le premier rendu */
+.navigation.indicateur-anime::before {
+  transition:
+    transform 0.36s cubic-bezier(0.32, 0.72, 0, 1),
+    width 0.36s cubic-bezier(0.32, 0.72, 0, 1),
+    height 0.36s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
 .onglet {
+  position: relative; /* ajouté */
+  z-index: 1; /* ajouté */
   padding: 0.5rem 0.95rem;
   border: 1px solid transparent;
   border-radius: 999px;
@@ -205,29 +240,20 @@ footer .marque-logo {
   transition:
     background 0.2s ease,
     border-color 0.2s ease,
-    color 0.2s ease,
-    transform 0.15s ease,
-    box-shadow 0.2s ease;
+    color 0.25s ease,
+    transform 0.15s ease;
 }
 
-.onglet:hover {
+/* Modifié : évite le texte blanc sur la pilule blanche au survol */
+.onglet:not(.actif):hover {
   border-color: rgba(255, 255, 255, 0.28);
   background: rgba(255, 255, 255, 0.14);
   color: #ffffff;
 }
 
+/* Modifié : le fond/bordure/ombre sont maintenant sur .navigation::before */
 .onglet.actif {
-  border-color: rgba(255, 255, 255, 0.7);
-  background: linear-gradient(
-    135deg,
-    #ffffff 0%,
-    var(--color-1) 55%,
-    var(--color-11) 100%
-  );
   color: var(--color-9);
-  box-shadow:
-    0 4px 16px color-mix(in srgb, var(--color-11) 40%, transparent),
-    inset 0 1px 0 #ffffff;
 }
 
 /* =========================================================
@@ -370,7 +396,7 @@ footer .marque-logo {
 .barre-catalogue h1 {
   margin: 0;
   padding-right: 0.15em;
-  display: inline-block; 
+  display: inline-block;
   font-size: clamp(1.85rem, 4.5vw, 2.55rem);
   font-weight: 850;
   letter-spacing: -0.035em;
